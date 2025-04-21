@@ -1,0 +1,79 @@
+#ifndef structs_H
+#define structs_H
+
+
+/*	Dictionary	*/
+typedef struct {
+   	char key[50];
+   	int value;
+	int amount;
+} Dictionary;
+
+
+/*	Expiry Date	*/
+struct expDate {
+	int month;
+	int year;
+};
+typedef struct expDate expiry_Date;
+
+
+/*	Normal Date	*/
+struct nomDate {
+	int day;
+	int month;
+	int year;
+};
+typedef struct nomDate normal_Date;
+
+
+/*	Phone Number	*/
+struct phoneNumber {
+	int CountryCode[2]
+	int PhoneNumber[10];
+};
+typedef struct phoneNumber phone_Number;
+
+
+/*	Card Struct	*/
+struct CardInformation{
+    	char brandName[20];
+   	char cardholderName[21];
+   	int CreditCardNumber[17];
+   	expiry_Date expireDate;
+    	int SecurityCode[3];
+};
+typedef struct CardInformation card_Information;
+
+
+/* Billing Information	*/
+
+struct BillingInformation{
+	char BillingAddress [26];
+	char Country [16];
+	char City[16];
+	char State[16];
+	int PostalCode [4];
+	phone_Number PhoneNumber
+};
+typedef struct BillingInformation billing_Info;
+ 
+
+
+/*	Purchase Order	*/
+typedef struct{
+	Dictionary order;
+	int totalCost;
+}PurchaseOrder;
+  
+
+/*	Purchase Information	*/
+struct recipt {
+    	normal_Date dateOfPurchase;
+	PurchaseOrder purchaseOrder;
+    	card_Information cardInformation;
+    	billing_Info BillingInformation;
+} typedef struct recipt Recipt;
+
+
+ 
