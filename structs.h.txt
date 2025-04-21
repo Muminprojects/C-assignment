@@ -49,6 +49,7 @@ typedef struct CardInformation card_Information;
 /* Billing Information	*/
 
 struct BillingInformation{
+    	card_Information cardInformation;
 	char BillingAddress [26];
 	char Country [16];
 	char City[16];
@@ -71,7 +72,6 @@ typedef struct{
 struct recipt {
     	normal_Date dateOfPurchase;
 	PurchaseOrder purchaseOrder;
-    	card_Information cardInformation;
     	billing_Info BillingInformation;
 } typedef struct recipt Recipt;
 
