@@ -1,6 +1,12 @@
 #ifndef structs_H
 #define structs_H
 
+#define maxHistoryCount 20;
+
+
+#include <stdio.h>  
+#include<string.h> 
+
 
 /*	Dictionary	*/
 typedef struct {
@@ -74,6 +80,43 @@ struct recipt {
 	PurchaseOrder purchaseOrder;
     	billing_Info BillingInformation;
 } typedef struct recipt Recipt;
+
+
+/*	Database Dictionary	*/
+typedef struct {
+   	char ClientName[21];
+   	Recipt recipt[maxHistoryCount];
+	int count; 
+} History;
+
+
+/*	Database	*/
+typedef struct {
+   	History history[];
+   	int count;
+} Databse;
+
+History* FindClient(const char name[21], const Database* database){
+	int i, length = database -> count;
+	for( i = 0; i < length; i++)
+	{
+		History temp =  databse -> History[i];
+		if(strcmp(name, temp -> ClientName))
+		{
+			return temp;
+		}
+	}
+	return null;
+}
+
+void ProcessNewOrder(const char ClientName[21], Recipt newOrder, const Database* database)
+{
+	History historyToUpdate* = FindClient(ClientName, database);
+	int emptyIndex* = historyToUpdate -> count;
+	historyToUpdate -> recipt[emptyIndex] = newOrder;
+	emptyIndex++;
+}
+
 
 
  
