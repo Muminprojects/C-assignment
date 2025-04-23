@@ -1,3 +1,7 @@
-//
-// Created by ngbat on 24/04/2025.
-//
+#include<stdio.h>
+#include<string.h>
+
+int main(){
+
+    return 0;
+}
