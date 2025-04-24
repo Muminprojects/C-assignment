@@ -1,8 +1,7 @@
 #include "structs.h"
-
-////////////////////////////
-/*    Helper Functions    */
-////////////////////////////
+#include<stdio.h>
+#include<string.h>
+#include <stdlib.h>
 
 
 /*--------------------------------------------------------------*/
