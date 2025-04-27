@@ -62,7 +62,6 @@ struct BillingInformation{
 typedef struct BillingInformation billing_Info;
 
 
-
 /*	Purchase Order	*/
 typedef struct{
     Dictionary order;
@@ -81,7 +80,7 @@ struct recipt {
 /*	Database Dictionary	*/
 typedef struct {
     char ClientName[21];
-    card_Information cardInformation;
+    card_Information currentCardInformation;
     Recipt recipt[maxHistoryCount];
     int count;
 } Entity;
