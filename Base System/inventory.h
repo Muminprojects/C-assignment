@@ -37,6 +37,7 @@ typedef struct{
     int totalStock;
     float costOfTotalStock;
     float totalStockWorth;
+    int currentIndex;
 } InvntoryItem;
 
 
@@ -53,14 +54,12 @@ typedef struct{
 InvntoryItem* GetInventoryItem(int uniqueStockID, const Database* database);
 Iventory* GetInventory (const Database* database);
 
-/*///////////////*/
+/*///////////////*/ 
 
 void CreateNewDeliveryInvoice( Database* database);
 void CreateNewInventoryItem(Databse* database);
 void DeleteInventoryItem(InvntoryItem* invItem, Databse* database);
-
-void UpdateStockID (int uniqueStockID, InvntoryItem* invItem);
-void UpdateStockName (char stockName[21], InvntoryItem* invItem);
+ 
 void UpdateCostPerUnit (float newValue, InvntoryItem* invItem); 
 void UpdatesellingPrice (float newValue, InvntoryItem* invItem); 
 
@@ -71,5 +70,7 @@ void calculateNewStats(InvntoryItem* invItem);
 
 void ProduceStockItemTextFile(const Database* database);
 void ProduceDeliveryInvoiceTextFile (const Database* database);
+
+void RepositionElementsInArray(int indexToStart, Database* database);
 
 #endif 

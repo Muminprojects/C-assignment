@@ -36,6 +36,7 @@ typedef struct phoneNumber phone_Number;
 
 void GetUserInput(char* inputString, int inputSize, const char* prompt);
 int ConvertStringToInt(char* inputString);
+float ConvertStringToFloat(char* inputString);
 int isInputValid(const char* input, int length);
 int isAllDigits(const char* str);
 

@@ -40,7 +40,7 @@ void GetUserInput(char* inputString, int inputSize, const char* prompt)
 int ConvertStringToInt(char* inputString)
 {
     char* end;
-    return (int)strtol(inputString, &end, 10); // x = 456
+    return (int)strtol(inputString, &end, 10); 
 }
 
 
@@ -102,4 +102,10 @@ int isAllDigits(const char* str) {
 
     /* All characters were digits, return 1 (true) */
     return 1;
+}
+
+float ConvertStringToFloat(char* inputString)
+{
+    char* end;
+    return (float)strtol(inputString, &end, 10); 
 }
