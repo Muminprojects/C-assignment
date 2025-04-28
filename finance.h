@@ -1,33 +1,11 @@
-#ifndef STRUCTS_H
-#define STRUCTS_H
+#ifndef FINANCE_H
+#define FINANCE_H
 
 #define maxHistoryCount 20
 #define MAX_INPUT 50
 
-/*	Dictionary	*/
-typedef struct {
-    char key[50];
-    int value;
-    int amount;
-} Dictionary;
-
-
-/*	Expiry Date	*/
-struct expDate {
-    int month;
-    int year;
-};
-typedef struct expDate expiry_Date;
-
-
-/*	Normal Date	*/
-struct nomDate {
-    int day;
-    int month;
-    int year;
-};
-typedef struct nomDate normal_Date;
-
+#include "inventory.h" 
+#include "gneralHelperMethods.h" 
 
 /*	Phone Number	*/
 struct phoneNumber {
@@ -83,17 +61,23 @@ typedef struct {
     card_Information currentCardInformation;
     Recipt recipt[maxHistoryCount];
     int count;
-} Entity;
+} Entity; 
 
-
-/*	Database	*/
 typedef struct {
     Entity history[];
     int count;
-} Databse;
+} Finance;
+
+/*	Databases	*/
+typedef struct{
+    Iventory inventory;
+    Finance finance;
+} database
+
+ 
 
 ///////////////////////////////////////
-/*    Helper Functions Defintions   *//
+/*    Helper Functions Defintions   */
 //////////////////////////////////////
 
 Entity* FindClient(const char name[21], const Database* database);
@@ -101,9 +85,5 @@ card_Information* GetCardInformation(const char name[21], const Database* databa
 void InitalizeNewEntity(Database* database);
 card_Information* InitalizeNewCardInfomration(char* CardholderName[21]);
 void ProcessNewOrder(const char ClientName[21], Recipt newOrder, const Database* database);
-void GetUserInput(char* inputString, int inputSize, const char* prompt);
-int ConvertStringToInt(char* inputString);
-int isInputValid(const char* input, int length);
-int isAllDigits(const char* str);
 
-#endif //STRUCTS_H
+#endif 
