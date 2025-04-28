@@ -7,14 +7,6 @@
 #include "inventory.h" 
 #include "gneralHelperMethods.h" 
 
-/*	Phone Number	*/
-struct phoneNumber {
-    int CountryCode[2]
-    int PhoneNumber[10];
-};
-typedef struct phoneNumber phone_Number;
-
-
 /*	Card Struct	*/
 struct CardInformation{
     char brandName[21];
@@ -72,7 +64,7 @@ typedef struct {
 typedef struct{
     Iventory inventory;
     Finance finance;
-} database
+} database;
 
  
 

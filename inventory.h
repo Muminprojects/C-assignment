@@ -70,4 +70,7 @@ void RemoveAmountFromStocckTotal (int amountToRemove, InvntoryItem* invItem);
 void AddAmountFromStockTotal (int amountToAdd,InvntoryItem* invItem);
 void calculateNewStats(InvntoryItem* invItem);
 
+void ProduceStockItemTextFile(const Database* database);
+void ProduceDeliveryInvoiceTextFile (const Database* database);
+
 #endif 

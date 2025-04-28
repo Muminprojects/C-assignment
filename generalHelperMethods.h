@@ -25,6 +25,15 @@ struct nomDate {
 };
 typedef struct nomDate normal_Date;
 
+
+/*	Phone Number	*/
+struct phoneNumber {
+    int CountryCode[2]
+    int PhoneNumber[10];
+};
+typedef struct phoneNumber phone_Number;
+
+
 void GetUserInput(char* inputString, int inputSize, const char* prompt);
 int ConvertStringToInt(char* inputString);
 int isInputValid(const char* input, int length);
