@@ -8,7 +8,7 @@
 #include "gneralHelperMethods.h"
 
 typedef struct{
-    int uniqueStockID[5];
+    int uniqueStockID;
     char stockName[21];
     float CostPerUnit;
     float sellingPrice;
@@ -16,7 +16,7 @@ typedef struct{
 
 
 typedef struct {
-    int uniqueInvoiceID[5];
+    int uniqueInvoiceID;
     Stock stock;
     nomDate dateOfDelivery;
     int amountDelivered;
@@ -25,9 +25,9 @@ typedef struct {
 
 
 typedef struct{ 
-    int supplierID[5];
+    int supplierID;
     char supplierName[21];
-    DeliveryInvoice deliveryHistory[];
+    DeliveryInvoice deliveryHistory[20];
 } Supplier;
 
 
@@ -42,7 +42,7 @@ typedef struct{
 
 typedef struct{
     InvntoryItem itemItenvory[MAX_UNIQUE_INVENTORY];
-    int count;
+    int itemItenvoryCount;
 } Inventory;
 
 
@@ -50,8 +50,7 @@ typedef struct{
 /*    Helper Functions Defintions   */
 //////////////////////////////////////
 
-Stock* GetInventoryItem(int uniqueStockID[5], const Database* database);
-DeliveryInvoice* GetDeliveryInvoice (int uniqueInvoiceID[5], const Database* database);
+InvntoryItem* GetInventoryItem(int uniqueStockID, const Database* database);
 Iventory* GetInventory (const Database* database);
 
 /*///////////////*/
@@ -60,7 +59,7 @@ void CreateNewDeliveryInvoice( Database* database);
 void CreateNewInventoryItem(Databse* database);
 void DeleteInventoryItem(InvntoryItem* invItem, Databse* database);
 
-void UpdateStockID (int uniqueStockID[5], InvntoryItem* invItem);
+void UpdateStockID (int uniqueStockID, InvntoryItem* invItem);
 void UpdateStockName (char stockName[21], InvntoryItem* invItem);
 void UpdateCostPerUnit (float newValue, InvntoryItem* invItem); 
 void UpdatesellingPrice (float newValue, InvntoryItem* invItem); 

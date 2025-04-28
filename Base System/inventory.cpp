@@ -3,19 +3,42 @@
 #include<string.h>
 #include<stdlib.h>
 
-Stock* GetInventoryItem(int uniqueStockID[5], const Database* database)
-{
+/*--------------------------------------------------------------*/
+/*  Author: Nestor Batoon
+    Function:
 
+    Input:
+
+    Output:						*/
+/*--------------------------------------------------------------*/
+InvntoryItem* GetInventoryItem(int uniqueStockID, const Database* database)
+{
+    Inventory* inv = database -> inventory;
+    int i, length = inv -> itemInventoryCount;
+
+    for(i = 0; i < length; i++)
+    {
+        InvntoryItem* item = inventory -> itemInventory[i];
+        if(item -> stock -> uniqueStockID == uniqueStockID)
+        {
+            return item;
+        }
+    } 
+    printf("Item Could not be found\n");
+    return null:
 }
 
-DeliveryInvoice* GetDeliveryInvoice (int uniqueInvoiceID[5], const Database* database
-{
+/*--------------------------------------------------------------*/
+/*  Author: Nestor Batoon
+    Function:
 
-}
+    Input:
 
+    Output:						*/
+/*--------------------------------------------------------------*/
 Iventory* GetInventory (const Database* database)
 {
-
+    return  database -> inventory;
 }
 
 void CreateNewDeliveryInvoice( Database* database)
@@ -34,7 +57,7 @@ void DeleteInventoryItem(InvntoryItem* invItem, Databse* database)
 }
 
 
-void UpdateStockID (int uniqueStockID[5], InvntoryItem* invItem)
+void UpdateStockID (int uniqueStockID, InvntoryItem* invItem)
 {
 
 }
