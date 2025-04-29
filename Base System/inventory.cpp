@@ -43,12 +43,33 @@ Iventory* GetInventory (const Database* database)
 
 void CreateNewDeliveryInvoice( Database* database)
 {
-    
+    DeliveryInvoice* deliveryInvoice = {0};
+    Stock* newStockVariable = {0};
+    nomDate* dateOfDelivery = {0};
 }
 
 void CreateNewInventoryItem(Databse* database)
 {
+    InvntoryItem* newInvItem = {0};
+    
+    Stock* newStockVariable = {0};
+    char* uniqueID, costPerUnit, sellingPrice; char stockName[21];
+    /* Get User Input */
+    
+    /* Assign the inputs to the member variables of 'newStockVariable' */
+    newInvItem -> stock = newStockVariable;
 
+    
+    Supplier* newSupplierVariable = {0};
+    char* SupplierID, SupplierName;
+
+    newInvItem -> supplier = newSupplierVariable;
+
+    
+    newInvItem -> totalStock = 0;
+    newInvItem -> currentIndex = database -> itemInventoryCount;
+    database -> itemInventoryCount++;
+        
 }
 
 /*--------------------------------------------------------------*/

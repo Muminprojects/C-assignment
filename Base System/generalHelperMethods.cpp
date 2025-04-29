@@ -11,7 +11,7 @@
 
     Output:						*/
 /*--------------------------------------------------------------*/
-void GetUserInput(char* inputString, int inputSize, const char* prompt)
+void                                                                                             (char* inputString, int inputSize, const char* prompt)
 {
     printf("%s\n", prompt);
     /* fgets reads line given by stdin (user keyboard input)
