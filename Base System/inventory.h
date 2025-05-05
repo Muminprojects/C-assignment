@@ -55,22 +55,19 @@ InvntoryItem* GetInventoryItem(int uniqueStockID, const Database* database);
 Iventory* GetInventory (const Database* database);
 
 /*///////////////*/ 
-
-void CreateNewDeliveryInvoice( Database* database);
-void CreateNewInventoryItem(Databse* database);
-void DeleteInventoryItem(InvntoryItem* invItem, Databse* database);
  
-void UpdateCostPerUnit (float newValue, InvntoryItem* invItem); 
-void UpdatesellingPrice (float newValue, InvntoryItem* invItem); 
-
-void UpdateStockItemCount( int newCount, InvntoryItem* invItem);
-void RemoveAmountFromStocckTotal (int amountToRemove, InvntoryItem* invItem);
-void AddAmountFromStockTotal (int amountToAdd,InvntoryItem* invItem);
-void calculateNewStats(InvntoryItem* invItem);
-
+void CreateNewInventoryItem(Databse* database);
+void DeleteInventoryItem(InvntoryItem* invItem, Databse* database); 
 void ProduceStockItemTextFile(const Database* database);
 void ProduceDeliveryInvoiceTextFile (const Database* database);
 
+void CreateNewDeliveryInvoice( Database* database);
+void UpdateCostPerUnit (float newValue, InvntoryItem* invItem); 
+void UpdatesellingPrice (float newValue, InvntoryItem* invItem); 
+void UpdateStockItemCount( int newCount, InvntoryItem* invItem);
+void RemoveAmountFromStocckTotal (int amountToRemove, InvntoryItem* invItem);
+void AddAmountFromStockTotal (int amountToAdd,InvntoryItem* invItem); 
+void calculateNewStats(InvntoryItem* invItem);
 void RepositionElementsInArray(int indexToStart, Database* database);
 
 #endif 

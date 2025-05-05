@@ -64,6 +64,7 @@ typedef struct {
 typedef struct{
     Iventory inventory;
     Finance finance;
+    const char* dbFileName = "database";
 } database;
 
  
