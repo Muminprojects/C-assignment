@@ -40,7 +40,7 @@ void                                                                            
 int ConvertStringToInt(char* inputString)
 {
     char* end;
-    return (int)strtol(inputString, &end, 10); 
+    return (int)strtol(inputString, &end, 10);
 }
 
 
@@ -107,5 +107,5 @@ int isAllDigits(const char* str) {
 float ConvertStringToFloat(char* inputString)
 {
     char* end;
-    return (float)strtol(inputString, &end, 10); 
+    return (float)strtol(inputString, &end, 10);
 }

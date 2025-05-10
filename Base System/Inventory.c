@@ -23,7 +23,7 @@ InvntoryItem* GetInventoryItem(int uniqueStockID, const Database* database)
         {
             return item;
         }
-    } 
+    }
     printf("Item Could not be found\n");
     return null:
 }
@@ -51,25 +51,25 @@ void CreateNewDeliveryInvoice( Database* database)
 void CreateNewInventoryItem(Databse* database)
 {
     InvntoryItem* newInvItem = {0};
-    
+
     Stock* newStockVariable = {0};
     char* uniqueID, costPerUnit, sellingPrice; char stockName[21];
     /* Get User Input */
-    
+
     /* Assign the inputs to the member variables of 'newStockVariable' */
     newInvItem -> stock = newStockVariable;
 
-    
+
     Supplier* newSupplierVariable = {0};
     char* SupplierID, SupplierName;
 
     newInvItem -> supplier = newSupplierVariable;
 
-    
+
     newInvItem -> totalStock = 0;
     newInvItem -> currentIndex = database -> itemInventoryCount;
     database -> itemInventoryCount++;
-        
+
 }
 
 /*--------------------------------------------------------------*/
@@ -79,12 +79,12 @@ void CreateNewInventoryItem(Databse* database)
     Input:
 
     Output:						*/
-/*--------------------------------------------------------------*/ 
+/*--------------------------------------------------------------*/
 void DeleteInventoryItem(InvntoryItem* invItem, Databse* database)
 {
     GetInventoryItem(invItem -> stock -> uniqueStockID, database);
     int indexOfItemToDelete = invItem -> currentIndex;
-    
+
     database -> inventory -> itemItenvory[indexOfItemToDelete] = null;
     database -> inventory -> itemItenvoryCount--;
 }
@@ -96,7 +96,7 @@ void DeleteInventoryItem(InvntoryItem* invItem, Databse* database)
     Input:
 
     Output:						*/
-/*--------------------------------------------------------------*/ 
+/*--------------------------------------------------------------*/
 void UpdateCostPerUnit (float newValue, InvntoryItem* invItem)
 {
     invItem -> stock -> CostPerUnit = newValue;
@@ -109,7 +109,7 @@ void UpdateCostPerUnit (float newValue, InvntoryItem* invItem)
     Input:
 
     Output:						*/
-/*--------------------------------------------------------------*/ 
+/*--------------------------------------------------------------*/
 void UpdatesellingPrice (float newValue, InvntoryItem* invItem)
 {
     invItem -> stock -> sellingPrice = newValue;
@@ -122,7 +122,7 @@ void UpdatesellingPrice (float newValue, InvntoryItem* invItem)
     Input:
 
     Output:						*/
-/*--------------------------------------------------------------*/ 
+/*--------------------------------------------------------------*/
 void UpdateStockItemCount( int newCount, InvntoryItem* invItem)
 {
     invItem -> totalStock = newCount;
@@ -135,7 +135,7 @@ void UpdateStockItemCount( int newCount, InvntoryItem* invItem)
     Input:
 
     Output:						*/
-/*--------------------------------------------------------------*/ 
+/*--------------------------------------------------------------*/
 void RemoveAmountFromStocckTotal (int amountToRemove, InvntoryItem* invItem)
 {
     invItem -> totalStock -= amountToRemove;
@@ -148,7 +148,7 @@ void RemoveAmountFromStocckTotal (int amountToRemove, InvntoryItem* invItem)
     Input:
 
     Output:						*/
-/*--------------------------------------------------------------*/ 
+/*--------------------------------------------------------------*/
 void AddAmountFromStockTotal (int amountToAdd,InvntoryItem* invItem)
 {
     invItem -> totalStock += amountToRemove;
@@ -161,7 +161,7 @@ void AddAmountFromStockTotal (int amountToAdd,InvntoryItem* invItem)
     Input:
 
     Output:						*/
-/*--------------------------------------------------------------*/ 
+/*--------------------------------------------------------------*/
 void calculateNewStats(InvntoryItem* invItem)
 {
     int multiply = invItem -> totalStock;
@@ -178,7 +178,7 @@ void calculateNewStats(InvntoryItem* invItem)
     Input:
 
     Output:						*/
-/*--------------------------------------------------------------*/ 
+/*--------------------------------------------------------------*/
 void RepositionElementsInArray(int indexToStart, Inventory* inv)
 {
     int i, int* invCount = inv-> itemItenvoryCount;
@@ -188,6 +188,6 @@ void RepositionElementsInArray(int indexToStart, Inventory* inv)
         itemToReplace -> currentIndex--;
         inv -> itemItenvory[i] = itemToReplace;
     }
-    inv -> itemItenvory[invCount] = null;        
+    inv -> itemItenvory[invCount] = null;
     invCount--;
 }
