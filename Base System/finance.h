@@ -11,9 +11,9 @@
 struct CardInformation{
     char brandName[21];
     char cardholderName[21];
-    int CreditCardNumber[17];
+    int CreditCardNumber;
     expiry_Date expireDate;
-    int SecurityCode[3];
+    int SecurityCode;
 };
 typedef struct CardInformation card_Information;
 
@@ -26,7 +26,7 @@ struct BillingInformation{
     char Country [16];
     char City[16];
     char State[16];
-    int PostalCode [4];
+    int PostalCode ;
     phone_Number PhoneNumber
 };
 typedef struct BillingInformation billing_Info;
@@ -53,10 +53,16 @@ typedef struct {
     card_Information currentCardInformation;
     Recipt recipt[maxHistoryCount];
     int count;
-} Entity; 
+} Entity;
+
+typedef struct{
+    char keyName[21];
+    Entity* entity;
+    int index;
+} EntityDictionaryDefinition;
 
 typedef struct {
-    Entity history[];
+    EntityDictionary clientList[20];
     int count;
 } Finance;
 
@@ -73,10 +79,12 @@ typedef struct{
 /*    Helper Functions Defintions   */
 //////////////////////////////////////
 
+void DeleteClient(Entity* client, Database* database);
+void AddClient(Database* database);
 Entity* FindClient(const char name[21], const Database* database);
 card_Information* GetCardInformation(const char name[21], const Database* database);
 void InitalizeNewEntity(Database* database);
 card_Information* InitalizeNewCardInfomration(char* CardholderName[21]);
 void ProcessNewOrder(const char ClientName[21], Recipt newOrder, const Database* database);
-
+void ReorderList(int removedElement, Database* database);
 #endif 
