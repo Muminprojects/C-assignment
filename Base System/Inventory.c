@@ -191,3 +191,12 @@ void RepositionElementsInArray(int indexToStart, Inventory* inv)
     inv -> itemItenvory[invCount] = null;
     invCount--;
 }
+
+void ProduceStockItemTextFile(const Database* database);
+{
+
+}
+void ProduceDeliveryInvoiceTextFile (const Database* database)
+{
+
+}
