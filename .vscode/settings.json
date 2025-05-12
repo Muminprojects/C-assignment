@@ -1,5 +1,7 @@
 {
     "files.associations": {
-        "inventory.h": "c"
+        "inventory.h": "c",
+        "generalhelpermethods.h": "c",
+        "finance.h": "c"
     }
 }

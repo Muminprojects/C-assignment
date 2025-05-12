@@ -11,21 +11,21 @@
 
     Output:						*/
 /*--------------------------------------------------------------*/
-InvntoryItem* GetInventoryItem(int uniqueStockID, const Database* database)
+InvntoryItem* GetInventoryItem(int uniqueStockID, const database* database)
 {
-    Inventory* inv = database -> inventory;
-    int i, length = inv -> itemInventoryCount;
+    Inventory* inv = &database -> inventory;
+    int i, length = inv -> itemItenvoryCount;
 
     for(i = 0; i < length; i++)
     {
-        InvntoryItem* item = inventory -> itemInventory[i];
-        if(item -> stock -> uniqueStockID == uniqueStockID)
+        InvntoryItem* item = &inv -> itemItenvory[i];
+        if(item -> stock.uniqueStockID == uniqueStockID)
         {
             return item;
         }
     }
     printf("Item Could not be found\n");
-    return null:
+    return NULL;
 }
 
 /*--------------------------------------------------------------*/
@@ -36,19 +36,19 @@ InvntoryItem* GetInventoryItem(int uniqueStockID, const Database* database)
 
     Output:						*/
 /*--------------------------------------------------------------*/
-Iventory* GetInventory (const Database* database)
+Inventory* GetInventory (const database* database)
 {
-    return  database -> inventory;
+    return  &database -> inventory;
 }
 
-void CreateNewDeliveryInvoice( Database* database)
+void CreateNewDeliveryInvoice( database* database)
 {
     DeliveryInvoice* deliveryInvoice = {0};
     Stock* newStockVariable = {0};
-    nomDate* dateOfDelivery = {0};
+    normal_Date* dateOfDelivery = {0};
 }
 
-void CreateNewInventoryItem(Databse* database)
+void CreateNewInventoryItem(database* database)
 {
     InvntoryItem* newInvItem = {0};
 
@@ -57,18 +57,18 @@ void CreateNewInventoryItem(Databse* database)
     /* Get User Input */
 
     /* Assign the inputs to the member variables of 'newStockVariable' */
-    newInvItem -> stock = newStockVariable;
+    newInvItem -> stock = *newStockVariable;
 
 
     Supplier* newSupplierVariable = {0};
     char* SupplierID, SupplierName;
 
-    newInvItem -> supplier = newSupplierVariable;
+    newInvItem -> supplier = *newSupplierVariable;
 
 
     newInvItem -> totalStock = 0;
-    newInvItem -> currentIndex = database -> itemInventoryCount;
-    database -> itemInventoryCount++;
+    newInvItem -> currentIndex = database -> inventory.itemItenvoryCount;
+    database -> inventory.itemItenvoryCount++;
 
 }
 
@@ -80,13 +80,14 @@ void CreateNewInventoryItem(Databse* database)
 
     Output:						*/
 /*--------------------------------------------------------------*/
-void DeleteInventoryItem(InvntoryItem* invItem, Databse* database)
+void DeleteInventoryItem(InvntoryItem* invItem, database* database)
 {
-    GetInventoryItem(invItem -> stock -> uniqueStockID, database);
+    GetInventoryItem(invItem -> stock.uniqueStockID, database);
     int indexOfItemToDelete = invItem -> currentIndex;
 
-    database -> inventory -> itemItenvory[indexOfItemToDelete] = null;
-    database -> inventory -> itemItenvoryCount--;
+    InvntoryItem empty = {0};
+    database->inventory.itemItenvory[indexOfItemToDelete] = empty;
+    database -> inventory.itemItenvoryCount--;
 }
 
 /*--------------------------------------------------------------*/
@@ -99,7 +100,7 @@ void DeleteInventoryItem(InvntoryItem* invItem, Databse* database)
 /*--------------------------------------------------------------*/
 void UpdateCostPerUnit (float newValue, InvntoryItem* invItem)
 {
-    invItem -> stock -> CostPerUnit = newValue;
+    invItem -> stock.CostPerUnit = newValue;
 }
 
 /*--------------------------------------------------------------*/
@@ -112,7 +113,7 @@ void UpdateCostPerUnit (float newValue, InvntoryItem* invItem)
 /*--------------------------------------------------------------*/
 void UpdatesellingPrice (float newValue, InvntoryItem* invItem)
 {
-    invItem -> stock -> sellingPrice = newValue;
+    invItem -> stock.sellingPrice = newValue;
 }
 
 /*--------------------------------------------------------------*/
@@ -151,7 +152,7 @@ void RemoveAmountFromStocckTotal (int amountToRemove, InvntoryItem* invItem)
 /*--------------------------------------------------------------*/
 void AddAmountFromStockTotal (int amountToAdd,InvntoryItem* invItem)
 {
-    invItem -> totalStock += amountToRemove;
+    invItem -> totalStock += amountToAdd;
 }
 
 /*--------------------------------------------------------------*/
@@ -165,8 +166,8 @@ void AddAmountFromStockTotal (int amountToAdd,InvntoryItem* invItem)
 void calculateNewStats(InvntoryItem* invItem)
 {
     int multiply = invItem -> totalStock;
-    float buyPrice = invItem -> stock -> CostPerUnit;
-    float SellingPrice = invItem -> stock -> sellingPrice;
+    float buyPrice = invItem -> stock.CostPerUnit;
+    float SellingPrice = invItem -> stock.sellingPrice;
     invItem -> costOfTotalStock = buyPrice * multiply;
     invItem -> totalStockWorth = SellingPrice * multiply;
 }
@@ -181,22 +182,23 @@ void calculateNewStats(InvntoryItem* invItem)
 /*--------------------------------------------------------------*/
 void RepositionElementsInArray(int indexToStart, Inventory* inv)
 {
-    int i, int* invCount = inv-> itemItenvoryCount;
-    for(i = indexToStart; i < inv-> invCount - 1; i++)
+    int i, invCount = inv-> itemItenvoryCount;
+    for(i = indexToStart; i < invCount - 1; i++)
     {
-        InventoryItem* itemToReplace = inv -> itemItenvory[i + 1];
+        InvntoryItem* itemToReplace = &inv -> itemItenvory[i + 1];
         itemToReplace -> currentIndex--;
-        inv -> itemItenvory[i] = itemToReplace;
+        inv -> itemItenvory[i] = *itemToReplace;
     }
-    inv -> itemItenvory[invCount] = null;
-    invCount--;
+    InvntoryItem empty = {0};
+    inv -> itemItenvory[invCount] = empty;
+    invCount--;\
 }
 
-void ProduceStockItemTextFile(const Database* database);
+void ProduceStockItemTextFile(const database* database)
 {
 
 }
-void ProduceStockItemList_Terminal (const Database* database)
+void ProduceStockItemList_Terminal (const database* database)
 {
 
 }

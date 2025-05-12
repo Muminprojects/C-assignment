@@ -4,8 +4,9 @@
 
 #define MAX_UNIQUE_INVENTORY 20
 
-#include "finance.h" 
-#include "gneralHelperMethods.h"
+#include "Base_System/finance.h" 
+#include "Base_System/inventory.h"
+#include "Base_System/generalHelperMethods.h" 
 
 typedef struct{
     int uniqueStockID;
@@ -18,7 +19,7 @@ typedef struct{
 typedef struct {
     int uniqueInvoiceID;
     Stock stock;
-    nomDate dateOfDelivery;
+    normal_Date dateOfDelivery;
     int amountDelivered;
     float paymentToSuppler;
 } DeliveryInvoice;
@@ -51,23 +52,23 @@ typedef struct{
 /*    Helper Functions Defintions   */
 //////////////////////////////////////
 
-InvntoryItem* GetInventoryItem(int uniqueStockID, const Database* database);
-Iventory* GetInventory (const Database* database);
+InvntoryItem* GetInventoryItem(int uniqueStockID, const database* database);
+Inventory* GetInventory (const database* database);
 
 /*///////////////*/ 
  
-void CreateNewInventoryItem(Databse* database);
-void DeleteInventoryItem(InvntoryItem* invItem, Databse* database); 
-void ProduceStockItemTextFile(const Database* database);
-void ProduceStockItemList_Terminal (const Database* database);
+void CreateNewInventoryItem(database* database);
+void DeleteInventoryItem(InvntoryItem* invItem, database* database); 
+void ProduceStockItemTextFile(const database* database);
+void ProduceStockItemList_Terminal (const database* database);
 
-void CreateNewDeliveryInvoice( Database* database);
+void CreateNewDeliveryInvoice( database* database);
 void UpdateCostPerUnit (float newValue, InvntoryItem* invItem); 
 void UpdatesellingPrice (float newValue, InvntoryItem* invItem); 
 void UpdateStockItemCount( int newCount, InvntoryItem* invItem);
 void RemoveAmountFromStocckTotal (int amountToRemove, InvntoryItem* invItem);
 void AddAmountFromStockTotal (int amountToAdd,InvntoryItem* invItem); 
 void calculateNewStats(InvntoryItem* invItem);
-void RepositionElementsInArray(int indexToStart, Database* database);
+void RepositionElementsInArray(int indexToStart, database* database);
 
 #endif 
