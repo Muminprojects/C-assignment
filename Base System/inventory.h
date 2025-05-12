@@ -59,7 +59,7 @@ Iventory* GetInventory (const Database* database);
 void CreateNewInventoryItem(Databse* database);
 void DeleteInventoryItem(InvntoryItem* invItem, Databse* database); 
 void ProduceStockItemTextFile(const Database* database);
-void ProduceDeliveryInvoiceTextFile (const Database* database);
+void ProduceStockItemList_Terminal (const Database* database);
 
 void CreateNewDeliveryInvoice( Database* database);
 void UpdateCostPerUnit (float newValue, InvntoryItem* invItem); 
