@@ -194,9 +194,105 @@ void RepositionElementsInArray(int indexToStart, Inventory* inv)
 
 void ProduceStockItemTextFile(const Database* database);
 {
+    FILE* file = fopen("stock_items.txt", "w");
+
+    if(file == NULL){
+        printf("Error! opening the file to write\n");
+        return;
+    }
+   
+    Inventory* inv = GetInventory(database);
+
+    if (inv->itemItenvoryCount == 0){
+        fprintf("List is Empty\n");
+        fclose();
+
+        printf("File created:stock_tems.txt\n");
+        return;
+
+        fprintf(file,"\nSTOCK ITEMS:\n");
+        fprintf(file,"%-14s %-15s %-12s %-12s %-15s %-10s %-15s %-15s\n",
+        "uniqueStockID", "stockName", "costPerUnit", "sellingPrice", "supplierID", "supplierName", "TotalStock", "costOfTotalStock", "totalStockWorth");
+        fprint(file,"-------------- --------------- ------------ ------------ --------------- ---------- --------------- ---------------");
+
+        int i;
+        for (i = 0; i < inv->itemItenvoryCount; ++i){
+
+            InvntoryItem* item = inv->itemItenvory[i];
+
+            if(item == NULL){
+                continue;
+            }
+            printf("%-14d %-15s $%-10.2f $%-12.2f %10d %15s %10d $%12.2f $%-15.2f\n",
+            item->stock.uniqueStockID,
+            item->stock.stockName,
+            item->stock.costPerUnit,
+            item->stock.sellingPrice,
+            item->stock.supplierID,
+            item->stock.supplierName,
+            item->stock.TotalStock,
+            item->stock.costOfTotalStock,
+            item->stock.totalStockWorth);
+
+        }
+
+        fclose(file);
+        printf("Stock items saved succesfully to the file stock_items.txt\n");
+
+
+
+
+
+    }
+
 
 }
+
 void ProduceStockItemList_Terminal (const Database* database)
 {
+     Inventory* inv = GetInventory(database);
+
+    if (inv -> itemItenvoryCount == 0){
+        printf("Given List is Empty");
+        
+        return;
+
+    }
+
+    printf("\nSTOCK ITEMS:\n");
+
+    printf("%-14s %-15s %-12s %-12s %-15s %-10s %-15s %-15s\n",
+        "uniqueStockID", "stockName", "costPerUnit", "sellingPrice", "supplierID", "supplierName", "TotalStock", "costOfTotalStock", "totalStockWorth");
+
+    printf("-------------- --------------- ------------ ------------ --------------- ---------- --------------- ---------------");
+
+    int i;
+    for (i = 0; i < inv->itemItenvoryCount; ++i){
+
+        InvntoryItem* item = inv->itemItenvory[i];
+
+        if (item == NULL){
+            continue;
+        }
+        printf("%-14d %-15s $%-10.2f $%-12.2f %10d %15s %10d $%12.2f $%-15.2f\n",
+            item->stock.uniqueStockID,
+            item->stock.stockName,
+            item->stock.costPerUnit,
+            item->stock.sellingPrice,
+            item->stock.supplierID,
+            item->stock.supplierName,
+            item->stock.TotalStock,
+            item->stock.costOfTotalStock,
+            item->stock.totalStockWorth);
+    
+        else{
+             printf("Error\n");
+            }
+
+    }
+
+    
 
 }
+
+
