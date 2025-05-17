@@ -51,7 +51,7 @@ typedef struct {
 typedef struct {
     char ClientName[21];
     card_Information currentCardInformation;
-    recipt recipts[maxHistoryCount];
+    billing_Info BillingInformation;
     int count;
 } Entity;
 
@@ -75,9 +75,7 @@ typedef struct{
 
  
 
-///////////////////////////////////////
 /*    Helper Functions Defintions   */
-//////////////////////////////////////
 
 void DeleteClient(Entity* client, database* database);
 Entity* FindClient(const char name[21], const database* database);

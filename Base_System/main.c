@@ -1,7 +1,7 @@
 #include <stdlib.h>
 #include <stdio.h>
 #include <string.h>
-#include "Base_System/finance.h"
+#include "database.h"
 
 void print_MainMenu(database* dataB);
 void print_FinanceMenu(database* dataB);
