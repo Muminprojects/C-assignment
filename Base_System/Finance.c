@@ -12,18 +12,18 @@
 
     Output:						*/
 /*--------------------------------------------------------------*/
-EntityDictionaryDefinition* FindClient(const char name[21], const Database* database)
+EntityDictionaryDefinition* FindClient(const char name[21], database* db)
 {
-    int i, length = database -> count;
+    int i, length = db -> finance.count;
     for( i = 0; i < length; i++)
     {
-        EntityDictionaryDefinition* entity = database -> finance -> clientList[i];
-        if(entity.keyName == name)
+        EntityDictionaryDefinition* entity = &db -> finance.clientList[i];
+        if(entity -> keyName == name)
         {
             return entity;
         }
     }
-    return null;
+    return NULL;
 }
 
 
@@ -35,13 +35,13 @@ EntityDictionaryDefinition* FindClient(const char name[21], const Database* data
 
     Output:						*/
 /*--------------------------------------------------------------*/
-card_Information* GetCardInformation(const char name[21], const Database* database)
+card_Information* GetCardInformation(const char name[21], const database* database)
 {
-    Entity clientHistory = FindClient(name, database);
-    if(clientHistory == null)
-        return null;
+    EntityDictionaryDefinition* clientHistory = FindClient(name, database);
+    if(clientHistory == NULL)
+        return NULL;
 
-    return CardInformation* cardInformation = clientHistory -> cardInformation;
+    return &clientHistory -> entity -> currentCardInformation;
 }
 
 
@@ -53,7 +53,7 @@ card_Information* GetCardInformation(const char name[21], const Database* databa
 
     Output:						*/
 /*--------------------------------------------------------------*/
-void InitalizeNewEntity(Database* database)
+void InitalizeNewEntity(database* db)
 {
     /* inalizes new Entity variable who's fields are set to default values    */
     Entity newEntity = {0};
@@ -65,9 +65,11 @@ void InitalizeNewEntity(Database* database)
         strcpy(newEntity.ClientName, CardholderName);
 
     /*    initalize client card information    */
-    newEntity. = InitalizeNewCardInfomration(CardholderName);
-    strcpy(newEntity.cardInformation.cardholderName&, CardholderName);
-    database -> finance -> clientList[ database -> count ] = newEntity;
+    newEntity.currentCardInformation = *InitalizeNewCardInfomration(CardholderName);
+    strcpy(newEntity.currentCardInformation.cardholderName, CardholderName);
+    /*
+    db->finance.clientList[db->finance.count++] = newEntity;
+    */
 }
 
 
@@ -82,7 +84,7 @@ void InitalizeNewEntity(Database* database)
 card_Information* InitalizeNewCardInfomration(char* CardholderName[21])
 {
     /* TODO: MUST COMPLETE THIS FUNCTION!!! NOT YET COMPLETE */
-    card_Information newCard;
+    card_Information newCard = {0};
 
     char* BrandName[21], CreditCardNumber[17],
     ExpiryMonth[3], ExpiryYear[5], SecurityCode[5];
@@ -93,7 +95,7 @@ card_Information* InitalizeNewCardInfomration(char* CardholderName[21])
 
     GetUserInput(CreditCardNumber, 17, "Enter CreditCard Number");
     if(isInputValid(BrandName, 17) != 0)
-        newcard.CreditCardNumber = ConvertStringToInt(CreditCardNumber);
+        newCard.CreditCardNumber = ConvertStringToInt(CreditCardNumber);
 
     expiry_Date newExpiry_Date;
 
@@ -107,9 +109,9 @@ card_Information* InitalizeNewCardInfomration(char* CardholderName[21])
 
     GetUserInput(SecurityCode, 5, "Enter CreditCard's Month of Expiry");
     if(isInputValid(SecurityCode, 5) != 0)
-        newcard.SecurityCode = ConvertStringToInt(ExpiryMonth);
+        newCard.SecurityCode = ConvertStringToInt(ExpiryMonth);
 
-    return newCard;
+    return &newCard;
 }
 
 
@@ -121,39 +123,34 @@ card_Information* InitalizeNewCardInfomration(char* CardholderName[21])
 
     Output:						*/
 /*--------------------------------------------------------------*/
-void ProcessNewOrder(const char ClientName[21], Recipt newOrder, const Database* database)
+void ProcessNewOrder(const char ClientName[21], recipt newOrder, const database* database)
 {
-    Entity historyToUpdate* = FindClient(ClientName, database);
-    int emptyIndex* = historyToUpdate -> count;
-    historyToUpdate -> recipt[emptyIndex] = newOrder;
+    EntityDictionaryDefinition historyToUpdate = *FindClient(ClientName, database);
+    int emptyIndex = historyToUpdate.index;
+    historyToUpdate.entity->recipts[emptyIndex] = newOrder;
     emptyIndex++;
 }
 
-void DeleteClient(const char ClientName[21], Database* database);
+void DeleteClient(const char ClientName[21], database* database)
 {
     EntityDictionaryDefinition* client = FindClient(ClientName, database);
-    int clientToDelete_Index = client->count;
-    database -> finance-> clientList[clientToDelete_Index] = null;
+    int clientToDelete_Index = client->index;
+    database -> finance.clientList[clientToDelete_Index].entity = NULL;
     ReorderList(clientToDelete_Index, database);
 }
 
-void AddClient(Database* database)
+void ReorderList(int removedElement, database* database)
 {
-
-}
-
-void ReorderList(int removedElement, Database* database)
-{
-    int length = database -> count;
-    database -> finance -> clientList[removedElement] = null;
+    int length = database->finance.count;
+    database -> finance.clientList[removedElement].entity = NULL;
     for(int i = removedElement; i < length - 1; i++)
     {
 
-        EntityDictionaryDefinition entity = database -> finance -> clientList[i + 1];
-        database -> finance -> clientList[i] = entity;
+        EntityDictionaryDefinition entity = database -> finance.clientList[i + 1];
+        database -> finance.clientList[i] = entity;
     }
-    database -> finance -> clientList[length-2] = null;
-    database -> finance-> count--;
+    database -> finance.clientList[length-2].entity = NULL;
+    database -> finance.count--;
 }
 
 

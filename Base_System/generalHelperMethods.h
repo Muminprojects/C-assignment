@@ -28,8 +28,8 @@ typedef struct nomDate normal_Date;
 
 /*	Phone Number	*/
 struct phoneNumber {
-    int CountryCode[2]
-    int PhoneNumber[10];
+    char* CountryCode[2];
+    char* PhoneNumber[10];
 };
 typedef struct phoneNumber phone_Number;
 

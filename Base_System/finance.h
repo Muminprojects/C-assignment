@@ -4,8 +4,8 @@
 #define maxHistoryCount 20
 #define MAX_INPUT 50
 
-#include "inventory.h" 
-#include "gneralHelperMethods.h" 
+#include "Base_System/inventory.h" 
+#include "Base_System/GeneralHelperMethods.h" 
 
 /*	Card Struct	*/
 struct CardInformation{
@@ -40,18 +40,18 @@ typedef struct{
 
 
 /*	Purchase Information	*/
-struct recipt {
+typedef struct {
     normal_Date dateOfPurchase;
     PurchaseOrder purchaseOrder;
     billing_Info BillingInformation;
-} typedef struct recipt Recipt;
+} recipt;
 
 
 /*	Database Dictionary	*/
 typedef struct {
     char ClientName[21];
     card_Information currentCardInformation;
-    Recipt recipt[maxHistoryCount];
+    recipt recipts[maxHistoryCount];
     int count;
 } Entity;
 
@@ -62,15 +62,15 @@ typedef struct{
 } EntityDictionaryDefinition;
 
 typedef struct {
-    EntityDictionary clientList[20];
+    EntityDictionaryDefinition clientList[20];
     int count;
 } Finance;
 
 /*	Databases	*/
 typedef struct{
-    Iventory inventory;
+    Inventory inventory;
     Finance finance;
-    const char* dbFileName = "database";
+    const char* dbFileName[];
 } database;
 
  
@@ -79,12 +79,11 @@ typedef struct{
 /*    Helper Functions Defintions   */
 //////////////////////////////////////
 
-void DeleteClient(Entity* client, Database* database);
-void AddClient(Database* database);
-Entity* FindClient(const char name[21], const Database* database);
-card_Information* GetCardInformation(const char name[21], const Database* database);
-void InitalizeNewEntity(Database* database);
+void DeleteClient(Entity* client, database* database);
+Entity* FindClient(const char name[21], const database* database);
+card_Information* GetCardInformation(const char name[21], const database* database);
+void InitalizeNewEntity(database* database);
 card_Information* InitalizeNewCardInfomration(char* CardholderName[21]);
-void ProcessNewOrder(const char ClientName[21], Recipt newOrder, const Database* database);
-void ReorderList(int removedElement, Database* database);
+void ProcessNewOrder(const char ClientName[21], recipt newOrder, const database* database);
+void ReorderList(int removedElement, database* database);
 #endif 

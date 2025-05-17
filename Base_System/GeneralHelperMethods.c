@@ -11,7 +11,7 @@
 
     Output:						*/
 /*--------------------------------------------------------------*/
-void                                                                                             (char* inputString, int inputSize, const char* prompt)
+void GetUserInput(char* inputString, int inputSize, const char* prompt)       
 {
     printf("%s\n", prompt);
     /* fgets reads line given by stdin (user keyboard input)
@@ -19,7 +19,7 @@ void                                                                            
     */
     if (fgets(inputString, inputSize, stdin) != NULL)
     {
-        int len = strlen(buffer);
+        int len = strlen(inputString);
         /* Replace newline from user pressing 'Enter' into null terminator*/
         if (len > 0 && inputString[len - 1] == '\n')
         {

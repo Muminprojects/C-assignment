@@ -1,6 +1,8 @@
 #include <stdlib.h>
 #include <stdio.h>
 #include <string.h>
+#include "Base_System/finance.h"
+#include "Base_System/inventory.h"
 
 void print_MainMenu(database* dataB);
 void print_FinanceMenu(database* dataB);
@@ -9,12 +11,11 @@ void print_InventoryMenu(database* dataB);
 void getUserInput_MainMenu(database* dataB);
 void getUserInput_FinanceMenu(database* dataB);
 void getUserInput_InventoryMenu(database* dataB);
-void Print
 
 int main()
 {
     database theDatabase = {0};
-    printMenu(&theDatabase);
+    getUserInput_MainMenu(&theDatabase);
     return 0;
 }
 
@@ -63,15 +64,14 @@ void getUserInput_MainMenu(database* dataB) {
         {
         case 1:
             //TODO: Implement Applicatoin termination
-            addBook(lib);
+            PrintFinanceMenu(dataB);
             break;
         case 2:
             //TODO: Implement Applicatoin termination
-            removeLastBook(lib);
+            printInventoryMenue(dataB);
             break;
         case 3:
-            //TODO: Implement Applicatoin termination
-            TerminateExecutable(lib);
+            //TODO: Implement Code termination
             break;
         default:
             printf("Invalid choice.\n");
@@ -91,26 +91,27 @@ void getUserInput_MainMenu(database* dataB) {
        that will need access to the struct
     - 'dbFileName' : string of file name for file-related functions 										*/
 /*--------------------------------------------------------------*/
-oid printInventoryMenue(database* dataB){
-    printf("\nBusiness Management System: Inventory Management System\n"
-        "1.Display Inventory\n"
-        "2.Add New Inventory Item\n"
-        "3.Delete Inventory Item\n"
-        "4.Export Inventory to Textfile\n"
-        "Enter your choice>\n"
-        )
+void printInventoryMenue(database* dataB){
+ printf("\nBusiness Management System: Inventory Management System\n"
+    "1.Display Inventory\n"
+    "2.Add New Inventory Item\n"
+    "3.Delete Inventory Item\n"
+    "4.Export Inventory to Textfile\n"
+    "Enter your choice>\n");
+}
 
-void SelectedchoiceInventory(database* dataB{
+/*
+void SelectedchoiceInventory(database* dataB){
     int choice;
     int selectoption = scanf("%d",choice);
 
     swicth(choice){
         case 1:
-        DisplayInventory(Database* database);
+        DisplayInventory(dataB);
         break;
 
         case 2:
-        CreateNewInventoryItem(Databse* database);
+        CreateNewInventoryItem(dataB);
         break;
 
         case 3:
@@ -127,4 +128,5 @@ void SelectedchoiceInventory(database* dataB{
         // checking my work
 
     }
-})
+}
+*/
