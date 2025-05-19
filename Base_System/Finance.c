@@ -1,4 +1,4 @@
-#include"finance.h"
+#include"database.h"
 #include<stdio.h>
 #include<string.h>
 #include<stdlib.h>
@@ -127,7 +127,6 @@ void ProcessNewOrder(const char ClientName[21], recipt newOrder, const database*
 {
     EntityDictionaryDefinition historyToUpdate = *FindClient(ClientName, database);
     int emptyIndex = historyToUpdate.index;
-    historyToUpdate.entity->recipts[emptyIndex] = newOrder;
     emptyIndex++;
 }
 
