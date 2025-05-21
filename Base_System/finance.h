@@ -81,6 +81,8 @@ typedef struct{
 
 void DeleteClient(Entity* client, database* database);
 Entity* FindClient(const char name[21], const database* database);
+void DisplayClientList_Terminal(const database* database);
+void Clientlist_TextFile(const database* database);
 card_Information* GetCardInformation(const char name[21], const database* database);
 void InitalizeNewEntity(database* database);
 card_Information* InitalizeNewCardInfomration(char* CardholderName[21]);
