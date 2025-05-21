@@ -117,7 +117,14 @@ typedef struct{
     const char* dbFileName[];
 } database;
 
- 
+/*    Print Menu Functions */
+void printMainMenu(database* dataB);
+void printFinanceMenu(database* dataB);
+void PrintInventoryMenu(database* dataB);
+
+void getUserInput_MainMenu(database* dataB);
+void getUserInput_FinanceMenu(database* dataB);
+void getUserInput_InventoryMenu(database* dataB);
 
 /*    Helper Functions Defintions for Finance */
 
@@ -147,4 +154,12 @@ void RemoveAmountFromStocckTotal (int amountToRemove, InvntoryItem* invItem);
 void AddAmountFromStockTotal (int amountToAdd,InvntoryItem* invItem); 
 void calculateNewStats(InvntoryItem* invItem);
 void RepositionElementsInArray(int indexToStart, database* database);
+
+void PrintStockItemManipulationMenu(database* database);
+void PrintStockItemManipulationMenu_Input(database* database);
+void EditStockPrompt(database* database);
+void EditStockOptions(InvntoryItem* item, database* database);
+void DisplayStockItem(InvntoryItem* item);
+void EditStock(InvntoryItem* item, database* database);
+
 #endif 

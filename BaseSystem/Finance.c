@@ -130,6 +130,14 @@ void ProcessNewOrder(const char ClientName[21], recipt newOrder, const database*
     emptyIndex++;
 }
 
+/*--------------------------------------------------------------*/
+/*  Author: Nestor Batoon
+    Function:
+
+    Input:
+
+    Output:						*/
+/*--------------------------------------------------------------*/
 void DeleteClient(const char ClientName[21], database* database)
 {
     EntityDictionaryDefinition* client = FindClient(ClientName, database);
@@ -138,6 +146,14 @@ void DeleteClient(const char ClientName[21], database* database)
     ReorderList(clientToDelete_Index, database);
 }
 
+/*--------------------------------------------------------------*/
+/*  Author: Nestor Batoon
+    Function:
+
+    Input:
+
+    Output:						*/
+/*--------------------------------------------------------------*/
 void ReorderList(int removedElement, database* database)
 {
     int length = database->finance.count;
@@ -151,6 +167,8 @@ void ReorderList(int removedElement, database* database)
     database -> finance.clientList[length-2].entity = NULL;
     database -> finance.count--;
 }
+
+
 
 
 

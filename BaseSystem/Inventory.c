@@ -226,7 +226,7 @@ void ProduceStockItemTextFile(const database* database)
             if(item == NULL){
                 continue;
             }
-            printf("%-14d %-15s $%-10.2f $%-12.2f %10d %15s %10d $%12.2f $%-15.2f\n",
+            printf("%-14d %-21s $%-10.2f $%-12.2f %10d %15s %10d $%12.2f $%-15.2f\n",
             item->stock.uniqueStockID,
             item->stock.stockName,
             item->stock.costPerUnit,
@@ -250,6 +250,26 @@ void ProduceStockItemTextFile(const database* database)
 
 
 }
+
+void DisplayStockItem(InvntoryItem* item)
+{
+    if (item == NULL){
+
+        printf("Error: Item not found\n");
+        return;
+    }
+    printf("%-14d %-21s $%-10.2f $%-12.2f %10d %15s %10d $%12.2f $%-15.2f\n",
+        item->stock.uniqueStockID,
+        item->stock.stockName,
+        item->stock.costPerUnit,
+        item->stock.sellingPrice,
+        item->stock.supplierID,
+        item->stock.supplierName,
+        item->stock.TotalStock,
+        item->stock.costOfTotalStock,
+        item->stock.totalStockWorth);
+}
+
 void ProduceStockItemList_Terminal (const database* database)
 {
      Inventory* inv = GetInventory(database);
@@ -270,31 +290,144 @@ void ProduceStockItemList_Terminal (const database* database)
 
     int i;
     for (i = 0; i < inv->itemItenvoryCount; ++i){
-
-        InvntoryItem* item = inv->itemItenvory[i];
-
-        if (item == NULL){
-            continue;
-        }
-        printf("%-14d %-15s $%-10.2f $%-12.2f %10d %15s %10d $%12.2f $%-15.2f\n",
-            item->stock.uniqueStockID,
-            item->stock.stockName,
-            item->stock.costPerUnit,
-            item->stock.sellingPrice,
-            item->stock.supplierID,
-            item->stock.supplierName,
-            item->stock.TotalStock,
-            item->stock.costOfTotalStock,
-            item->stock.totalStockWorth);
-    
-        else{
-             printf("Error\n");
-            }
-
+        DisplayStockItem(inv->itemItenvory[i]);
     }
-
-    
-
 }
 
+/*--------------------------------------------------------------*/
+/*  Author: Nestor Batoon
+    Function:
+
+    Input:
+
+    Output:						*/
+/*--------------------------------------------------------------*/
+void PrintStockItemManipulationMenu(database* database)
+{
+    printf("\nEdit Stock Items\n"
+       "1.Edit Inventory Item property\n"
+       "2.Display Inventory\n"
+       "3.return to Inventory menu\n"
+       "Enter your choice>\n");
+    PrintStockItemManipulationMenu_Input(database);
+}
+
+void PrintStockItemManipulationMenu_Input(database* database)
+{
+    /*	Await user input and store it in choice	*/
+    int choice;
+    /*	Use result as a boolean to store whether integer was given	*/
+    int result = scanf("%d", &choice);
+
+    /*	if result == 0, then an integer was not given. Prints the menu again	*/
+    if(result == 1) {
+
+        /*	Executes function tied to int	*/
+        switch (choice)
+        {
+            case 1:
+                EditStockPrompt(database);
+                break;
+            case 2:
+                ProduceStockItemList_Terminal(database);
+                break;
+            case 3:
+                PrintInventoryMenu(database);
+                break;
+            default:
+                printf("Invalid choice.\n");
+                break;
+        }
+    }
+}
+
+
+void EditStockPrompt(database* database)
+{
+    ProduceStockItemList_Terminal(database);
+    int input;
+
+    printf("\n Enter Unique Stock ID of Stock you want to edit ");
+    scanf("%d", &input);
+    Item* item = GetInventoryItem(input, database);
+    if (item == NULL)
+        {
+        printf("Error: Item not found\n");
+        PrintStockItemManipulationMenu_Input(database);
+    }
+    else
+    {
+        EditStockOptions(GetInventoryItem(input, database), database);
+    }
+}
+
+
+
+void EditStockOptions(InvntoryItem* item, database* database)
+{
+    DisplayStockItem(item);
+    printf("\n Currently editing: %-21s"
+        "\n1. Update Cost Per Unit"
+        "\n2. Update Selling Price Per Unit"
+        "\n3. Set Current Stock Item Count"
+        "\n4. Add amount to total Stock count"
+        "\n5. Remove amount from total Stock count"
+        "\n6. Return"
+        , item->stock.stockName);
+
+    EditStock(item, database);
+}
+
+void EditStock(InvntoryItem* item, database* database)
+{
+    int choice;
+    int result = scanf("%d", &choice);
+    if (result == 1) {
+        switch(choice){
+            case 1:
+                float newCost;
+                scanf("%f", &newCost);
+                UpdateCostPerUnit(newCost, item);
+                DisplayStockItem(item);
+                break;
+
+            case 2:
+                float newValue;
+                scanf("%f", &newValue);
+                UpdatesellingPrice(newValue, item);
+                DisplayStockItem(item);
+                break;
+
+            case 3:
+                int newCount;
+                scanf("%d", &newCount);
+                UpdateStockItemCount(newCount, item);
+                DisplayStockItem(item);
+                break;
+
+            case 4:
+                int amountToAdd;
+                scanf("%d", &amountToAdd);
+                AddAmountFromStockTotal(amountToAdd, item);
+                DisplayStockItem(item);
+                break;
+
+            case 5:
+                int amountToRemove;
+                scanf("%d", &amountToRemove);
+                RemoveAmountFromStocckTotal(amountToRemove, item);
+                DisplayStockItem(item);
+                break;
+
+            case 6:
+                PrintStockItemManipulationMenu(database);
+                break;
+
+            default:
+                printf("Invalid choice.\n");
+                break;
+        }
+        EditStockOptions(item, database);
+    }
+}
 
