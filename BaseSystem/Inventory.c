@@ -305,7 +305,7 @@ void ProduceStockItemList_Terminal (const database* database)
 void PrintStockItemManipulationMenu(database* database)
 {
     printf("\nEdit Stock Items\n"
-       "1.Edit Inventory Item property\n"
+       "1.Edit an Inventory Item's property\n"
        "2.Display Inventory\n"
        "3.return to Inventory menu\n"
        "Enter your choice>\n");

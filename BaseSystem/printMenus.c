@@ -79,29 +79,6 @@ void getUserInput_MainMenu(database* dataB) {
         }
     }
 }
-
-/*--------------------------------------------------------------*/
-/* Author: Ashwin Jacob */
-/*	Function: getUserInput	*/
-/*	Takes user inputs of integer digits and executes functions
-    assigned to them
-
-    inputs:
-    - 'lib' : takes library_t pointer to pass on to other functions
-       that will need access to the struct
-    - 'dbFileName' : string of file name for file-related functions 										*/
-/*--------------------------------------------------------------*/
-void PrintInventoryMenu(database* dataB){
- printf("\nBusiness Management System: Inventory Management System\n"
-    "1.Display Inventory\n"
-    "2.Add New Inventory Item\n"
-    "3.Delete Inventory Item\n"
-    "4.Export Inventory to Textfile\n"
-    "Enter your choice>\n");
-    SelectedchoiceInventory(dataB);
-}
-
-
 void SelectedchoiceInventory(database* dataB){
     int choice;
     int selectoption = scanf("%d", &choice);
@@ -120,7 +97,25 @@ void SelectedchoiceInventory(database* dataB){
                 break;
 
             case 4:
+                printf("\n Deleting item stock...");
+                ProduceStockItemList_Terminal(database);
+                int input;
+                printf("\n Enter Unique Stock ID of Stock you want to remove from database ");
+                scanf("%d", &input);
+                Item* item = GetInventoryItem(input, database);
+                if (item == NULL)
+                    printf("Error: Item not found\n");
+                else
+                    DeleteInventoryItem(item, dataB);
+
+                break;
+
+            case 5:
                 ProduceStockItemTextFile(dataB);
+                break;
+
+            case 6:
+                printMainMenu(dataB);
                 break;
 
             default:
@@ -128,4 +123,31 @@ void SelectedchoiceInventory(database* dataB){
                 break;
         }
     }
+    PrintInventoryMenu(dataB);
 }
+
+/*--------------------------------------------------------------*/
+/* Author: Ashwin Jacob */
+/*	Function: getUserInput	*/
+/*	Takes user inputs of integer digits and executes functions
+    assigned to them
+
+    inputs:
+    - 'lib' : takes library_t pointer to pass on to other functions
+       that will need access to the struct
+    - 'dbFileName' : string of file name for file-related functions 										*/
+/*--------------------------------------------------------------*/
+void PrintInventoryMenu(database* dataB){
+ printf("\nBusiness Management System: Inventory Management System\n"
+    "1.Display Inventory\n"
+    "2.Add New Inventory Item\n"
+    "3.Edit an Inventory Item\n"
+    "4.Delete Inventory Item\n"
+    "5.Export Inventory to Textfile\n"
+    "6.Return\n"
+    "Enter your choice>\n");
+    SelectedchoiceInventory(dataB);
+}
+
+
+
