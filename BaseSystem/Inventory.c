@@ -1,5 +1,6 @@
-#include"finance.h"
+#include"database.h"
 #include<stdio.h>
+#include"generalHelperMethods.h"
 #include<string.h>
 #include<stdlib.h>
 

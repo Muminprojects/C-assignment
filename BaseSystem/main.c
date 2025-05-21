@@ -3,9 +3,9 @@
 #include <string.h>
 #include "database.h"
 
-void print_MainMenu(database* dataB);
-void print_FinanceMenu(database* dataB);
-void print_InventoryMenu(database* dataB);
+void printMainMenu(database* dataB);
+void printFinanceMenu(database* dataB);
+void PrintInventoryMenu(database* dataB);
 
 void getUserInput_MainMenu(database* dataB);
 void getUserInput_FinanceMenu(database* dataB);
@@ -18,6 +18,13 @@ int main()
     return 0;
 }
 
+/*--------------------------------------------------------------*/
+/* Author: Nestor Batoon */
+/*	Function: printMainMenu	*/
+/*	prints the options the user can take
+
+    inputs: None
+/*--------------------------------------------------------------*/
 void printMainMenu(database* dataB) {
     printf("\nBusiness Management System\n"
         "1. Finance section\n"
@@ -28,6 +35,17 @@ void printMainMenu(database* dataB) {
     getUserInput_MainMenu(dataB);
 }
 
+/*--------------------------------------------------------------*/
+/* Author: Nestor Batoon */
+/*	Function: getUserInput	*/
+/*	Takes user inputs of integer digits and executes functions
+    assigned to them
+
+    inputs:
+    - 'lib' : takes library_t pointer to pass on to other functions
+       that will need access to the struct
+    - 'dbFileName' : string of file name for file-related functions*/
+/*--------------------------------------------------------------*/
 void PrintFinanceMenu(database* dataB)
 {
     printf("\nBusiness Management System: Finance Management\n"
@@ -38,7 +56,7 @@ void PrintFinanceMenu(database* dataB)
 }
 /*--------------------------------------------------------------*/
 /* Author: Nestor Batoon */
-/*	Function: getUserInput	*/
+/*	Function: getUserInput_MainMenu	*/
 /*	Takes user inputs of integer digits and executes functions
     assigned to them
 
@@ -62,15 +80,13 @@ void getUserInput_MainMenu(database* dataB) {
         switch (choice)
         {
         case 1:
-            //TODO: Implement Applicatoin termination
             PrintFinanceMenu(dataB);
             break;
         case 2:
-            //TODO: Implement Applicatoin termination
-            printInventoryMenue(dataB);
+            PrintInventoryMenu(dataB);
             break;
         case 3:
-            //TODO: Implement Code termination
+                exit(0);
             break;
         default:
             printf("Invalid choice.\n");
@@ -90,7 +106,7 @@ void getUserInput_MainMenu(database* dataB) {
        that will need access to the struct
     - 'dbFileName' : string of file name for file-related functions 										*/
 /*--------------------------------------------------------------*/
-void printInventoryMenue(database* dataB){
+void PrintInventoryMenu(database* dataB){
  printf("\nBusiness Management System: Inventory Management System\n"
     "1.Display Inventory\n"
     "2.Add New Inventory Item\n"
@@ -99,14 +115,13 @@ void printInventoryMenue(database* dataB){
     "Enter your choice>\n");
 }
 
-/*
+
 void SelectedchoiceInventory(database* dataB){
     int choice;
     int selectoption = scanf("%d",choice);
-
-    swicth(choice){
+    switch(choice){
         case 1:
-        DisplayInventory(dataB);
+        ProduceStockItemList_Terminal(dataB);
         break;
 
         case 2:
@@ -118,14 +133,11 @@ void SelectedchoiceInventory(database* dataB){
         break;
 
         case 4:
-        ProduceStockItemTextFile(cost Database* database);
+        ProduceStockItemTextFile(dataB);
         break;
 
-        case 5:
-        ProduceDeliveryInvoicTextFile(const Database* database);
-        break;
-        // checking my work
-
+        default:
+            printf("Invalid choice.\n");
+            break;
     }
 }
-*/

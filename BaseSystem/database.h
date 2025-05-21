@@ -5,7 +5,7 @@
 #define MAX_INPUT 50
 #define MAX_UNIQUE_INVENTORY 20
 
-#include "Base_System/GeneralHelperMethods.h" 
+#include "GeneralHelperMethods.h"
 
 /*	Card Struct	*/
 struct CardInformation{
@@ -27,7 +27,7 @@ struct BillingInformation{
     char City[16];
     char State[16];
     int PostalCode ;
-    phone_Number PhoneNumber
+    phone_Number PhoneNumber;
 };
 typedef struct BillingInformation billing_Info;
 
@@ -119,7 +119,7 @@ typedef struct{
 
  
 
-/*    Helper Functions Defintions   */
+/*    Helper Functions Defintions for Finance */
 
 void DeleteClient(Entity* client, database* database);
 Entity* FindClient(const char name[21], const database* database);
@@ -132,7 +132,7 @@ void ReorderList(int removedElement, database* database);
 InvntoryItem* GetInventoryItem(int uniqueStockID, const database* database);
 Inventory* GetInventory (const database* database);
 
-/*    Helper Functions Defintions   */ 
+/*    Helper Functions Defintions for Inventory */
  
 void CreateNewInventoryItem(database* database);
 void DeleteInventoryItem(InvntoryItem* invItem, database* database); 
