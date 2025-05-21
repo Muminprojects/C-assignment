@@ -5,7 +5,6 @@
 #define MAX_UNIQUE_INVENTORY 20
 
 #include "Base_System/finance.h" 
-#include "Base_System/inventory.h"
 #include "Base_System/generalHelperMethods.h" 
 
 typedef struct{
