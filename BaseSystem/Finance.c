@@ -168,8 +168,143 @@ void ReorderList(int removedElement, database* database)
     database -> finance.count--;
 }
 
+void DisplayClientList_Terminal(const database* database){
+
+    if (database->finance.count == 0){
+        printf("The Client list is Empty\n");
+        return;
+    }
+
+    printf("\nEntity"                           "Card Information"                          "Billing Address"                   "Phone Number\n");
+    printf("-------------------- ---------------------------------------- -------------------------------------------------- -------------------------\n");
+
+    printf("%20s %-15s %-18s %-10s %-12s %-15s %-15s %-15s %-15s %-12s %-12s %-15s\n",
+           "Client Name", "Brand Name", "CreditCard Number", "Expiry Date", "Security Code",
+           "Billing Address", "Country", "City", "State", "PostalCode", "Country Code", "Phone Number");
+    
+    printf("-------------------- --------------- ------------------ ---------- ------------ --------------- --------------- --------------- --------------- ------------ ------------ ---------------\n");
+
+    int i;
+    for (int i = 0; i < database->finance.count; ++i){
+
+        if (database->finance.clientList[i].entity == NULL){
+            continue;
+
+        }
+        Entity* client = database->finance.clientList[i].entity;
+
+        char expiryDate[10];
+        printf("expiryDate, %02d/%02d",
+               client->currentCardInformation.expireDate.month
+               client->currentCardInformation.expireDate.year % 100); 
+        
+        printf("%-20s %-15s %-16d %-10s %-12d ",
+               client->ClientName,
+               client->currentCardInformation.brandName,
+               client->currentCardInformation.CreditCardNumber,
+               expiryDate,
+               client->currentCardInformation.SecurityCode);
 
 
 
+        
+        if (client->count > 1){
+            printf("%-15s %-15s %-15s %-15s %-12d %-12d %-15d\n",
+                   client->receipts[client->count - 1].BillingInformation.BillingAddress,
+                   client->receipts[client->count - 1].BillingInformation.Country,
+                   client->receipts[client->count - 1].BillingInformation.City,
+                   client->receipts[client->count - 1].BillingInformation.State,
+                   client->receipts[client->count - 1].BillingInformation.PostalCode,
+                   client->receipts[client->count - 1].BillingInformation.PhoneNumber.countryCode,
+                   client->receipts[client->count - 1].BillingInformation.PhoneNumber.phoneNumber);
+
+        }else{
+            printf("%-15s %-15s %-15s %-15s %-12s %-12s %-15s\n",
+                   "N/A", "N/A", "N/A", "N/A", "N/A", "N/A", "N/A");
+        }
+
+
+
+    }
+    printf("-------------------- --------------- ---------------- ---------- ------------ --------------- --------------- --------------- --------------- ------------ ------------ ---------------\n");
+}
+
+void Clientlist_TextFile(const database* database){
+    FILE* file = fopen("output/clientinformation.txt", "w");
+
+    if (file == NULL){
+        printf("Error for Opening file for Writing\n");
+        return;
+    }
+
+    if (database->finance.count == 0){
+        fprintf("The Client list is Empty\n");
+        fclose(file);
+        printf("File created: output/clientinformation.txt\n");
+        return;
+    }
+
+    fprintf("\nEntity"                           "Card Information"                          "Billing Address"                   "Phone Number\n");
+    fprintf("-------------------- ---------------------------------------- -------------------------------------------------- -------------------------\n");
+
+    fprintf("%20s %-15s %-18s %-10s %-12s %-15s %-15s %-15s %-15s %-12s %-12s %-15s\n",
+           "Client Name", "Brand Name", "CreditCard Number", "Expiry Date", "Security Code",
+           "Billing Address", "Country", "City", "State", "PostalCode", "Country Code", "Phone Number");
+    
+    fprintf("-------------------- --------------- ------------------ ---------- ------------ --------------- --------------- --------------- --------------- ------------ ------------ ---------------\n");
+
+    int i;
+    for (int i = 0; i < database->finance.count; ++i){
+        if (database->finance.clientList[i].entity == NULL){
+            continue;
+
+        }
+        Entity* client = database->finance.clientList[i].entity;
+
+        char expiryDate[10];
+        printf("expiryDate, %02d/%02d",
+               client->currentCardInformation.expireDate.month
+               client->currentCardInformation.expireDate.year % 100); 
+        
+        fprintf("%-20s %-15s %-16d %-10s %-12d ",
+               client->ClientName,
+               client->currentCardInformation.brandName,
+               client->currentCardInformation.CreditCardNumber,
+               expiryDate,
+               client->currentCardInformation.SecurityCode);
+
+
+
+        
+        if (client->count > 1){
+            fprintf("%-15s %-15s %-15s %-15s %-12d %-12d %-15d\n",
+                   client->receipts[client->count - 1].BillingInformation.BillingAddress,
+                   client->receipts[client->count - 1].BillingInformation.Country,
+                   client->receipts[client->count - 1].BillingInformation.City,
+                   client->receipts[client->count - 1].BillingInformation.State,
+                   client->receipts[client->count - 1].BillingInformation.PostalCode,
+                   client->receipts[client->count - 1].BillingInformation.PhoneNumber.countryCode,
+                   client->receipts[client->count - 1].BillingInformation.PhoneNumber.phoneNumber);
+
+
+        }else{
+            printf("%-15s %-15s %-15s %-15s %-12s %-12s %-15s\n",
+                   "N/A", "N/A", "N/A", "N/A", "N/A", "N/A", "N/A");
+            
+        }
+
+    }
+
+        
+
+        fprintf("-------------------- --------------- ---------------- ---------- ------------ --------------- --------------- --------------- --------------- ------------ ------------ ---------------\n");
+
+        fclose(file);
+        printf("Client information is saved and stored in output/clientinformation.txt file successfully\n");
+
+}
+
+    
+            
 
 
