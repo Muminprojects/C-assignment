@@ -67,11 +67,77 @@ void InitalizeNewEntity(database* db)
     /*    initalize client card information    */
     newEntity.currentCardInformation = *InitalizeNewCardInfomration(CardholderName);
     strcpy(newEntity.currentCardInformation.cardholderName, CardholderName);
-    /*
-    db->finance.clientList[db->finance.count++] = newEntity;
-    */
+    newEntity.billing_Info = InitalizeNewBillingInformaTion();
+    newEntity.billing_Info.cardInformation = newEntity.cardInformation;
+    int newEntityIndex = db->finance.count;
+
+    EntityDictionaryDefinition newDictionaryEntity = {0};
+    strcpy(newDictionaryEntity.ClientName, CardholderName);
+    newDictionaryEntity.entity = *newEntity;
+    newDictionaryEntity.index = newEntityIndex;
+
+    db->finance.clientList[newEntityIndex] = newEntity;
+    db->finance.count++;
 }
 
+/*--------------------------------------------------------------*/
+/*  Author: Nestor Batoon
+    Function:
+
+    Input:
+
+    Output:						*/
+/*--------------------------------------------------------------*/
+billing_Info* InitalizeNewBillingInformaTion()
+{
+    billing_Info BillingInformation = {0};
+
+    char* billAddress[26], cntry[16],
+    city[16], state[16], postalCode[5];
+    phone_Number = {0};
+
+    GetUserInput(billAddress, 26, "Enter address");
+    strcpy(BillingInformation.BillingAddress, billAddress);
+    while (!isInputValid(billAddress, 21) != 0) {
+        GetUserInput(billAddress, 26, "Enter address");
+        strcpy(BillingInformation.BillingAddress, billAddress);
+    } 
+
+    GetUserInput(postalCode, 5, "Enter post code");
+    BillingInformation.postalCode = ConvertStringToInt(postalCode);
+    while(!isInputValid(postalCode, 5) != 0)
+    {
+        GetUserInput(postalCode, 5, "Enter post code");
+        BillingInformation.postalCode = ConvertStringToInt(postalCode);
+    }
+
+    GetUserInput(cntry, 16, "Enter country");
+    strcpy(BillingInformation.Country, cntry);
+    while(!isInputValid(cntry, 16) != 0)
+    {
+        GetUserInput(cntry, 16, "Enter country");
+        strcpy(BillingInformation.Country, cntry);
+    } 
+
+    GetUserInput(city, 16, "Enter City");
+    strcpy(BillingInformation.City, city);
+    while(!isInputValid(city, 16) != 0)
+    {
+        GetUserInput(city, 16, "Enter City");
+        strcpy(BillingInformation.City, city);
+    }
+
+    GetUserInput(state, 16, "Enter State");
+    strcpy(BillingInformation.State, state);
+    while(!isInputValid(state, 16) != 0)
+    {
+        GetUserInput(state, 16, "Enter State");
+        strcpy(BillingInformation.State, state);
+    }
+          
+
+    return &BillingInformation;
+}
 
 /*--------------------------------------------------------------*/
 /*  Author: Nestor Batoon
@@ -83,33 +149,54 @@ void InitalizeNewEntity(database* db)
 /*--------------------------------------------------------------*/
 card_Information* InitalizeNewCardInfomration(char* CardholderName[21])
 {
-    /* TODO: MUST COMPLETE THIS FUNCTION!!! NOT YET COMPLETE */
     card_Information newCard = {0};
 
     char* BrandName[21], CreditCardNumber[17],
     ExpiryMonth[3], ExpiryYear[5], SecurityCode[5];
 
     GetUserInput(BrandName, 21, "Enter Card Provider's Name");
-    if(isInputValid(BrandName, 21) != 0)
+    strcpy(newCard.brandName, BrandName);
+    while(!isInputValid(BrandName, 21) != 0)
+    {
+        GetUserInput(BrandName, 21, "Enter Card Provider's Name");
         strcpy(newCard.brandName, BrandName);
+    }
 
     GetUserInput(CreditCardNumber, 17, "Enter CreditCard Number");
-    if(isInputValid(BrandName, 17) != 0)
+    newCard.CreditCardNumber = ConvertStringToInt(CreditCardNumber);
+    while(!isInputValid(BrandName, 17) != 0)
+    {
+        GetUserInput(CreditCardNumber, 17, "Enter CreditCard Number");
         newCard.CreditCardNumber = ConvertStringToInt(CreditCardNumber);
+    }
 
     expiry_Date newExpiry_Date;
 
     GetUserInput(ExpiryMonth, 3, "Enter CreditCard's Month of Expiry");
-    if(isInputValid(ExpiryMonth, 3) != 0)
+    newExpiry_Date.month = ConvertStringToInt(ExpiryMonth);
+    while(!isInputValid(ExpiryMonth, 3) != 0)
+    {
+        GetUserInput(ExpiryMonth, 3, "Enter CreditCard's Month of Expiry");
         newExpiry_Date.month = ConvertStringToInt(ExpiryMonth);
+    }
 
     GetUserInput(ExpiryYear, 5, "Enter CreditCard's Year of Expiry");
-    if(isInputValid(ExpiryYear, 5) != 0)
+    newExpiry_Date.year = ConvertStringToInt(ExpiryYear);
+    while(!isInputValid(ExpiryYear, 5) != 0)
+    {
+        GetUserInput(ExpiryYear, 5, "Enter CreditCard's Year of Expiry");
         newExpiry_Date.year = ConvertStringToInt(ExpiryYear);
+    }
+         
+    newCard.expireDate = newExpiry_Date;
 
     GetUserInput(SecurityCode, 5, "Enter CreditCard's Month of Expiry");
-    if(isInputValid(SecurityCode, 5) != 0)
+    newCard.SecurityCode = ConvertStringToInt(ExpiryMonth);
+    while(isInputValid(SecurityCode, 5) != 0)
+    {
+        GetUserInput(SecurityCode, 5, "Enter CreditCard's Month of Expiry");
         newCard.SecurityCode = ConvertStringToInt(ExpiryMonth);
+    }
 
     return &newCard;
 }
@@ -123,12 +210,65 @@ card_Information* InitalizeNewCardInfomration(char* CardholderName[21])
 
     Output:						*/
 /*--------------------------------------------------------------*/
-void ProcessNewOrder(const char ClientName[21], recipt newOrder, const database* database)
+void ProcessNewOrder(const database* database)
 {
-    EntityDictionaryDefinition historyToUpdate = *FindClient(ClientName, database);
-    &historyToUpdate.index++;
+    char* ClientName[21];
+    int choice;
+
+    GetUserInput(ClientName, 21, "Enter client's name"); 
+
+    Entity client = *FindClient(ClientName, database);
     
+    if(client == NULL)
+    {
+        printf("\n Client not found in system. Would you like to inialize new client?"
+            "\n1. Yes"
+            "\n2. No\n ");
+
+        int choice;
+        int result = scanf("%d", &choice);
+        if (result == 1)
+        {
+            switch(choice)
+            {
+                case 1:
+                    client = InitalizeNewEntity(database);
+                    break;
+                
+                case 2:
+                    //return to previous menu
+                    break;
+
+                default:
+                //return to previous menu
+                break;
+            }
+        } 
+    }
+
+    InvntoryItem* invItem;
+    ProduceStockItemList_Terminal();
+    int amount, uniqueStockID;
+    printf("\n Enter the Unique Stock ID of the item ordered\n ");
+    scanf("%d", &choice);
+    invItem = GetInventoryItem(uniqueStockID, database);
+
+    if(invItem == NULL)
+    {
+        printf("\n Stock ID invalid... terminating operation and returning to menu");
+        //return to previous menu
+        return;
+    }
+
+    printf("\n Enter amount ordered\n ");
+    scanf("%d", &amount);
+    float cost = amount * item -> stock.sellingPrice; 
+    printf("\n%s has order %d of %s for %f ", client.ClientName, amount, invItem-> stock.stockName);
+    RemoveAmountFromStocckTotal(amount, invItem);
+    database->finance.totalBalance += cost;
+    SaveDatabase(database, database->dbFileName);
 }
+
 
 /*--------------------------------------------------------------*/
 /*  Author: Nestor Batoon

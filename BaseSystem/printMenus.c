@@ -35,10 +35,45 @@ void printMainMenu(database* dataB) {
 void PrintFinanceMenu(database* dataB)
 {
     printf("\nBusiness Management System: Finance Management\n"
-    "1. Finance section\n"
-    "2. Inventory section\n"
-    "3. End Program\n"
-    "Enter your choice>\n");
+    "Total balance: $%f\n"
+    "1. Process new customer order\n"
+    "2. Display client information\n"
+    "3. Produce textfile of client information\n"
+    "4. Return\n"
+    "Enter your choice>\n", dataB->finance.totalBalance);
+}
+
+void getUserInput_FinanceMenu(database* dataB)
+{
+     int choice;
+    /*	Use result as a boolean to store whether integer was given	*/
+    int result = scanf("%d", &choice);
+
+    /*	if result == 0, then an integer was not given. Prints the menu again	*/
+    if(result == 1) {
+
+        /*	Executes function tied to int	*/
+        switch (choice)
+        {
+        case 1:
+            ProcessNewOrder(dataB);
+            SaveDatabase(dataB, dataB->dbFileName);
+            break;
+        case 2:
+            DisplayClientList_Terminal(dataB);
+            break;
+        case 3:
+            Clientlist_TextFile(dataB);
+            break;
+        case 3:
+            printMainMenu(0);
+            break;
+        default:
+            printf("Invalid choice.\n");
+            break;
+        }
+    }
+    PrintFinanceMenu(dataB);
 }
 /*--------------------------------------------------------------*/
 /* Author: Nestor Batoon */
@@ -72,13 +107,14 @@ void getUserInput_MainMenu(database* dataB) {
             PrintInventoryMenu(dataB);
             break;
         case 3:
-                exit(0);
+            exit(0);
             break;
         default:
             printf("Invalid choice.\n");
             break;
         }
     }
+    printMainMenu(dataB);
 }
 void SelectedchoiceInventory(database* dataB){
     int choice;
@@ -91,6 +127,7 @@ void SelectedchoiceInventory(database* dataB){
 
             case 2:
                 CreateNewInventoryItem(dataB);
+                SaveDatabase(dataB, dataB->dbFileName);
                 break;
 
             case 3:

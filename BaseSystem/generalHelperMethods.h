@@ -24,14 +24,7 @@ struct nomDate {
     int year;
 };
 typedef struct nomDate normal_Date;
-
-
-/*	Phone Number	*/
-struct phoneNumber {
-    char* CountryCode[2];
-    char* PhoneNumber[10];
-};
-typedef struct phoneNumber phone_Number;
+ 
 
 
 void GetUserInput(char* inputString, int inputSize, const char* prompt);

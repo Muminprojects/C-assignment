@@ -102,6 +102,7 @@ void DeleteInventoryItem(InvntoryItem* invItem, database* database)
 void UpdateCostPerUnit (float newValue, InvntoryItem* invItem)
 {
     invItem -> stock.CostPerUnit = newValue;
+    calculateNewStats(invItem);
 }
 
 /*--------------------------------------------------------------*/
@@ -115,6 +116,7 @@ void UpdateCostPerUnit (float newValue, InvntoryItem* invItem)
 void UpdatesellingPrice (float newValue, InvntoryItem* invItem)
 {
     invItem -> stock.sellingPrice = newValue;
+    calculateNewStats(invItem);
 }
 
 /*--------------------------------------------------------------*/
@@ -128,6 +130,7 @@ void UpdatesellingPrice (float newValue, InvntoryItem* invItem)
 void UpdateStockItemCount( int newCount, InvntoryItem* invItem)
 {
     invItem -> totalStock = newCount;
+    calculateNewStats(invItem);
 }
 
 /*--------------------------------------------------------------*/
@@ -141,6 +144,7 @@ void UpdateStockItemCount( int newCount, InvntoryItem* invItem)
 void RemoveAmountFromStocckTotal (int amountToRemove, InvntoryItem* invItem)
 {
     invItem -> totalStock -= amountToRemove;
+    calculateNewStats(invItem);
 }
 
 /*--------------------------------------------------------------*/
@@ -154,6 +158,7 @@ void RemoveAmountFromStocckTotal (int amountToRemove, InvntoryItem* invItem)
 void AddAmountFromStockTotal (int amountToAdd,InvntoryItem* invItem)
 {
     invItem -> totalStock += amountToAdd;
+    calculateNewStats(invItem);
 }
 
 /*--------------------------------------------------------------*/
@@ -427,6 +432,7 @@ void EditStock(InvntoryItem* item, database* database)
                 printf("Invalid choice.\n");
                 break;
         }
+        SaveDatabase(database, database->dbFileName);
         EditStockOptions(item, database);
     }
 }

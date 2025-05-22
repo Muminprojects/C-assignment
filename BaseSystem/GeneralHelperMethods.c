@@ -109,3 +109,60 @@ float ConvertStringToFloat(char* inputString)
     char* end;
     return (float)strtol(inputString, &end, 10);
 }
+
+void SaveDatabase(const database* dataB, const char* filename)
+{
+    	/* Open the file for writing in binary mode */
+	FILE* fp = fopen(filename, "wb");   
+
+	
+	/* If the file fails to open, function is stopped */
+	if (!fp) {  
+		return;
+	}
+
+	/* Write the entire library struct with all its
+	 member variables */ 
+	fwrite(dataB, sizeof(database), 1, fp);
+
+	/* Close the file to save changes */
+	fclose(fp);
+}
+
+
+
+/*--------------------------------------------------------------*/
+/*	Function: loadFromFile	
+ * This function loads (reads) library data from a binary file.
+ * It replaces the current contents of the library with the saved data.
+ *
+ *	Input: 
+ *		- 'lib' : refrence to library in main
+ *      - 'filename' : string name of databse file
+ *
+ *	Output:
+ *	- reads data from binary file name and sets it's contents
+ *  into current library variable in main
+ */
+/*--------------------------------------------------------------*/
+void loadFromFile(database* dataB, const char* filename) 
+{
+    /* Open the file for reading in binary mode ("rb") */
+    FILE* fp = fopen(filename, "rb");
+
+    /* Check if the file could not be opened */
+    if (!fp) {  
+		/* if fialed to open, print error message and 
+		exit function early */
+        printf("Read error\n"); 
+        return;                 
+    }
+
+
+    fread(dataB, sizeof(database), 1, fp);
+
+    /* Close the file after reading */
+    fclose(fp);
+    /* print sucessfull load  */
+    printf("Database loaded from file.\n");
+}

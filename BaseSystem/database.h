@@ -26,8 +26,7 @@ struct BillingInformation{
     char Country [16];
     char City[16];
     char State[16];
-    int PostalCode ;
-    phone_Number PhoneNumber;
+    int PostalCode;
 };
 typedef struct BillingInformation billing_Info;
 
@@ -36,15 +35,8 @@ typedef struct BillingInformation billing_Info;
 typedef struct{
     Dictionary order;
     int totalCost;
+    Entity client;
 }PurchaseOrder;
-
-
-/*	Purchase Information	*/
-typedef struct {
-    normal_Date dateOfPurchase;
-    PurchaseOrder purchaseOrder;
-    billing_Info BillingInformation;
-} recipt;
 
 
 /*	Database Dictionary	*/
@@ -62,6 +54,7 @@ typedef struct{
 } EntityDictionaryDefinition;
 
 typedef struct {
+    float totalBalance;
     EntityDictionaryDefinition clientList[20];
     int count;
 } Finance;
@@ -114,7 +107,7 @@ typedef struct{
 typedef struct{
     Inventory inventory;
     Finance finance;
-    const char* dbFileName[];
+    char* dbFileName;
 } database;
 
 /*    Print Menu Functions */
@@ -133,7 +126,8 @@ Entity* FindClient(const char name[21], const database* database);
 card_Information* GetCardInformation(const char name[21], const database* database);
 void InitalizeNewEntity(database* database);
 card_Information* InitalizeNewCardInfomration(char* CardholderName[21]);
-void ProcessNewOrder(const char ClientName[21], recipt newOrder, const database* database);
+billing_Info* InitalizeNewBillingInformaTion();
+void ProcessNewOrder(const database* database);
 void ReorderList(int removedElement, database* database);
 
 InvntoryItem* GetInventoryItem(int uniqueStockID, const database* database);
@@ -145,6 +139,8 @@ void CreateNewInventoryItem(database* database);
 void DeleteInventoryItem(InvntoryItem* invItem, database* database);
 void ProduceStockItemTextFile(const database* database);
 void ProduceStockItemList_Terminal (const database* database);
+void DisplayClientList_Terminal(const database* database);
+void Clientlist_TextFile(const database* database);
 
 void CreateNewDeliveryInvoice( database* database);
 void UpdateCostPerUnit (float newValue, InvntoryItem* invItem); 
@@ -162,5 +158,8 @@ void EditStockPrompt(database* database);
 void EditStockOptions(InvntoryItem* item, database* database);
 void DisplayStockItem(InvntoryItem* item);
 void EditStock(InvntoryItem* item, database* database);
+
+void SaveDatabase(const database* dataB, const char* filename);
+void loadFromFile(database* dataB, const char* filename);
 
 #endif 
