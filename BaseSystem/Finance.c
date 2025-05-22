@@ -126,8 +126,8 @@ card_Information* InitalizeNewCardInfomration(char* CardholderName[21])
 void ProcessNewOrder(const char ClientName[21], recipt newOrder, const database* database)
 {
     EntityDictionaryDefinition historyToUpdate = *FindClient(ClientName, database);
-    int emptyIndex = historyToUpdate.index;
-    emptyIndex++;
+    &historyToUpdate.index++;
+    
 }
 
 /*--------------------------------------------------------------*/

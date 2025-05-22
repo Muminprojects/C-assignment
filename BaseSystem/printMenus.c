@@ -18,6 +18,7 @@ void printMainMenu(database* dataB) {
         "Enter your choice>\n");
 
     getUserInput_MainMenu(dataB);
+
 }
 
 /*--------------------------------------------------------------*/
