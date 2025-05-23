@@ -202,7 +202,9 @@ void RepositionElementsInArray(int indexToStart, Inventory* inv)
 
 void ProduceStockItemTextFile(const database* database)
 {
-    FILE* file = fopen("stock_items.txt", "w");
+    char filePath [250] = "C:\\Users\\Ashwin\\Documents\\GitHub\\C-assignment\\output\\stock_items.txt";
+
+    FILE* file = fopen(filePath, "w");
 
     if(file == NULL){
         printf("Error! opening the file to write\n");

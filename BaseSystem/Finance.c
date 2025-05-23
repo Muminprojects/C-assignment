@@ -370,7 +370,10 @@ void DisplayClientList_Terminal(const database* database){
 }
 
 void Clientlist_TextFile(const database* database){
-    FILE* file = fopen("output/clientinformation.txt", "w");
+
+    char filePath [250] = "C:\\Users\\Ashwin\\Documents\\GitHub\\C-assignment\\output\\clientinformation.txt";
+
+    FILE* file = fopen(filePath, "w");
 
     if (file == NULL){
         printf("Error for Opening file for Writing\n");
