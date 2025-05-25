@@ -132,11 +132,11 @@ void getUserInput_UpdateClientDetailsMenu(database* dataB) {
         switch (choice)
         {
         case 1:
-            DisplayClientList_Terminal;
+            DisplayClientList_Terminal(dataB);
             AddAmountToBalance(dataB);
             break;
         case 2:
-            DisplayClientList_Terminal;
+            DisplayClientList_Terminal(dataB);
             RemoveAmountFromBalance(dataB);
             break;
         case 3:
