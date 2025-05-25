@@ -65,9 +65,9 @@ void getUserInput_FinanceMenu(database* dataB)
         case 3:
             Clientlist_TextFile(dataB);
             break;
-        case 3:
+        case 4:
             printMainMenu(0);
-            break;
+            return;
         default:
             printf("Invalid choice.\n");
             break;
@@ -126,38 +126,32 @@ void SelectedchoiceInventory(database* dataB){
             case 1:
                 ProduceStockItemList_Terminal(dataB);
                 break;
-
             case 2:
                 CreateNewInventoryItem(dataB);
                 SaveDatabase(dataB, dataB->dbFileName);
                 break;
-
             case 3:
                 PrintStockItemManipulationMenu(dataB);
                 break;
-
-            case 4:
+            case 4: {
                 printf("\n Deleting item stock...");
-                ProduceStockItemList_Terminal(database);
+                ProduceStockItemList_Terminal(dataB);
                 int input;
                 printf("\n Enter Unique Stock ID of Stock you want to remove from database ");
                 scanf("%d", &input);
-                Item* item = GetInventoryItem(input, database);
+                InvntoryItem* item = GetInventoryItem(input, dataB);
                 if (item == NULL)
                     printf("Error: Item not found\n");
                 else
                     DeleteInventoryItem(item, dataB);
-
                 break;
-
+            }
             case 5:
                 ProduceStockItemTextFile(dataB);
                 break;
-
             case 6:
                 printMainMenu(dataB);
-                break;
-
+                return;
             default:
                 printf("Invalid choice.\n");
                 break;

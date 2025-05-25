@@ -18,7 +18,7 @@ EntityDictionaryDefinition* FindClient(const char name[21], database* db)
     for( i = 0; i < length; i++)
     {
         EntityDictionaryDefinition* entity = &db -> finance.clientList[i];
-        if(entity -> keyName == name)
+        if(strcmp(entity->keyName, name) == 0)
         {
             return entity;
         }
@@ -52,31 +52,38 @@ card_Information* GetCardInformation(const char name[21], const database* databa
     Input:
 
     Output:						*/
-/*--------------------------------------------------------------*/
 void InitalizeNewEntity(database* db)
 {
-    /* inalizes new Entity variable who's fields are set to default values    */
-    Entity newEntity = {0};
+    // 1) get a valid name buffer
+    char CardholderName[21];
+    do {
+        GetUserInput(CardholderName, 21, "Enter New Client's Name");
+    } while (!isInputValid(CardholderName, 20));
 
-    /*    initalize client Name    */
-    char* CardholderName[21];
-    GetUserInput(CardholderName, 21, "Enter New Client's Name");
-    if(isInputValid(CardholderName, 21) != 0)
-        strcpy(newEntity.ClientName, CardholderName);
+    // 2) allocate a new Entity on the heap
+    Entity* newEnt = malloc(sizeof(Entity));
+    if (!newEnt) {
+        fprintf(stderr, "Error: out of memory\n");
+        return;
+    }
+    memset(newEnt, 0, sizeof(*newEnt));
 
-    /*    initalize client card information    */
-    newEntity.currentCardInformation = *InitalizeNewCardInfomration(CardholderName);
-    strcpy(newEntity.currentCardInformation.cardholderName, CardholderName);
-    newEntity.billing_Info = InitalizeNewBillingInformaTion();
-    newEntity.billing_Info.cardInformation = newEntity.cardInformation;
-    int newEntityIndex = db->finance.count;
+    strcpy(newEnt->ClientName, CardholderName);
+    newEnt->currentCardInformation = InitalizeNewCardInfomration(CardholderName);
+    newEnt->BillingInformation = InitalizeNewBillingInformaTion();
 
-    EntityDictionaryDefinition newDictionaryEntity = {0};
-    strcpy(newDictionaryEntity.ClientName, CardholderName);
-    newDictionaryEntity.entity = *newEntity;
-    newDictionaryEntity.index = newEntityIndex;
+    int idx = db->finance.count;
+    if (idx >= maxHistoryCount) {
+        printf("Client list full!\n");
+        free(newEnt);
+        return;
+    }
 
-    db->finance.clientList[newEntityIndex] = newEntity;
+    EntityDictionaryDefinition* entry = &db->finance.clientList[idx];
+    strcpy(entry->keyName, CardholderName);
+    entry->entity = newEnt;
+    entry->index  = idx;
+
     db->finance.count++;
 }
 
@@ -88,13 +95,11 @@ void InitalizeNewEntity(database* db)
 
     Output:						*/
 /*--------------------------------------------------------------*/
-billing_Info* InitalizeNewBillingInformaTion()
+billing_Info InitalizeNewBillingInformaTion()
 {
     billing_Info BillingInformation = {0};
 
-    char* billAddress[26], cntry[16],
-    city[16], state[16], postalCode[5];
-    phone_Number = {0};
+    char billAddress[26], cntry[16], city[16], state[16], postalCode[6];
 
     GetUserInput(billAddress, 26, "Enter address");
     strcpy(BillingInformation.BillingAddress, billAddress);
@@ -135,8 +140,7 @@ billing_Info* InitalizeNewBillingInformaTion()
         strcpy(BillingInformation.State, state);
     }
 
-
-    return &BillingInformation;
+    return BillingInformation;
 }
 
 /*--------------------------------------------------------------*/
@@ -442,5 +446,4 @@ void Clientlist_TextFile(const database* database){
 
         fclose(file);
         printf("Client information is saved and stored in output/clientinformation.txt file successfully\n");
-
 }

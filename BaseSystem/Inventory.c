@@ -51,26 +51,54 @@ void CreateNewDeliveryInvoice( database* database)
 
 void CreateNewInventoryItem(database* database)
 {
-    InvntoryItem* newInvItem = {0};
+    InvntoryItem newInvItem = {0};
 
-    Stock* newStockVariable = {0};
-    char* uniqueID, costPerUnit, sellingPrice; char stockName[21];
+    Stock newStockVariable = {0};
+    int uniqueID, totalStock, currentIndex;
+    float costPerUnit, sellingPrice, costOfTotalStock, totalStockWorth;
+    char* stockName[21];
+
     /* Get User Input */
+    printf("\n Enter Unique Stock ID of Stock you want to edit.\n ");
+    scanf("%d", &uniqueID);
+    newStockVariable.uniqueStockID = uniqueID;
+
+    GetUserInput(stockName, 21, "Enter name of new stock item");
+    if(isInputValid(stockName, 21) != 0)
+        strcpy(newStockVariable.stockName, stockName);
+
+    printf("\n cost per unit.\n ");
+    scanf("%f", &costPerUnit);
+    newStockVariable.CostPerUnit = costPerUnit;
+
+    printf("\n selling price per unit.\n ");
+    scanf("%f", &sellingPrice);
+    newStockVariable.sellingPrice = sellingPrice;
 
     /* Assign the inputs to the member variables of 'newStockVariable' */
     newInvItem -> stock = *newStockVariable;
 
+    printf("\n Enter total stock count.\n ");
+    scanf("%d", &totalStock);
+    newInvItem -> totalStock = totalStock;
+    newInvItem -> costOfTotalStock = costPerUnit * totalStock;
+    newInvItem -> totalStockWorth = sellingPrice * totalStock;
 
     Supplier* newSupplierVariable = {0};
-    char* SupplierID, SupplierName;
+    char* SupplierName;
+    GetUserInput(SupplierName, 21, "Enter supplier name");
+    if(isInputValid(SupplierName, 21) != 0)
+        strcpy(newSupplierVariable.supplierName, SupplierName);
+
+    int uniqueSupplierID;
+    printf("\n Enter Unique Stock ID of Stock you want to edit.\n ");
+    scanf("%d", &uniqueSupplierID);
+    newSupplierVariable.supplierID = uniqueSupplierID;
 
     newInvItem -> supplier = *newSupplierVariable;
-
-
-    newInvItem -> totalStock = 0;
     newInvItem -> currentIndex = database -> inventory.itemItenvoryCount;
+    database -> inventory.itemItenvory[database -> inventory.itemItenvoryCount] = newInvItem;
     database -> inventory.itemItenvoryCount++;
-
 }
 
 /*--------------------------------------------------------------*/
@@ -268,11 +296,11 @@ void DisplayStockItem(InvntoryItem* item)
         item->stock.stockName,
         item->stock.costPerUnit,
         item->stock.sellingPrice,
-        item->stock.supplierID,
-        item->stock.supplierName,
-        item->stock.TotalStock,
-        item->stock.costOfTotalStock,
-        item->stock.totalStockWorth);
+        item->supplier.supplierID,
+        item->supplier.supplierName,
+        item->TotalStock,
+        item->costOfTotalStock,
+        item->totalStockWorth);
 }
 
 void ProduceStockItemList_Terminal (const database* database)
