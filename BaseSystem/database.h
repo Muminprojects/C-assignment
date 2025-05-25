@@ -83,29 +83,6 @@ Inventory* GetInventory (const database* database);
 
 /*    Helper Functions Defintions for Inventory */
 
-void CreateNewInventoryItem(database* database);
-void DeleteInventoryItem(InvntoryItem* invItem, database* database);
-void ProduceStockItemTextFile(const database* database);
-void ProduceStockItemList_Terminal (const database* database);
-void DisplayClientList_Terminal(const database* database);
-void Clientlist_TextFile(const database* database);
-
-void UpdateCostPerUnit (float newValue, InvntoryItem* invItem); 
-void UpdatesellingPrice (float newValue, InvntoryItem* invItem); 
-void UpdateStockItemCount( int newCount, InvntoryItem* invItem);
-void RemoveAmountFromStocckTotal (int amountToRemove, InvntoryItem* invItem);
-void AddAmountFromStockTotal (int amountToAdd,InvntoryItem* invItem); 
-void calculateNewStats(InvntoryItem* invItem);
-void RepositionElementsInArray(int indexToStart, database* database);
-
-void SelectedchoiceInventory(database* dataB);
-void PrintStockItemManipulationMenu(database* database);
-void PrintStockItemManipulationMenu_Input(database* database);
-void EditStockPrompt(database* database);
-void EditStockOptions(InvntoryItem* item, database* database);
-void DisplayStockItem(InvntoryItem* item);
-void EditStock(InvntoryItem* item, database* database);
-
 void SaveDatabase(const database* dataB, const char* filename);
 void loadFromFile(database* dataB, const char* filename);
 
