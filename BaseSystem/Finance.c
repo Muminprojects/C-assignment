@@ -352,60 +352,59 @@ void Clientlist_TextFile(const database* database){
     FILE* file = fopen("output/clientinformation.txt", "w");
 
     if (file == NULL){
-        printf("Error for Opening file for Writing\n");
+        printf("Error opening file for writing\n");
         return;
     }
 
     if (database->finance.count == 0){
-        fprintf("The Client list is Empty\n");
+        fprintf(file, "The Client list is empty.\n");
         fclose(file);
         printf("File created: output/clientinformation.txt\n");
         return;
     }
 
-    fprintf("%20s %-15s %-15s %-18s %-10s %-12s %-15s %-15s %-15s %-15s %-12s %-12s %-15s\n",
-           "Client Name", "Balance", "Brand Name", "CreditCard Number", "Expiry Date", "Security Code",
-           "Billing Address", "Country", "City", "State", "PostalCode", "Country Code", "Phone Number");
+    fprintf(file, "%-20s %-15s %-20s %-20s %-10s %-14s %-20s %-15s %-15s %-15s %-12s %-14s %-15s\n",
+            "Client Name", "Balance", "Brand Name", "Credit Card Number", "Exp Date", "Security Code",
+            "Billing Address", "Country", "City", "State", "Postal Code", "Country Code", "Phone Number");
 
-    fprintf("-------------------- --------------- --------------- ------------------ ---------- ------------ --------------- --------------- --------------- --------------- ------------ ------------ ---------------\n");
+    fprintf(file, "-------------------- --------------- -------------------- -------------------- ---------- -------------- -------------------- --------------- --------------- --------------- ------------ -------------- ---------------\n");
 
-    int i;
     for (int i = 0; i < database->finance.count; ++i){
         if (database->finance.clientList[i].entity == NULL){
             continue;
-
         }
+
         Entity* client = database->finance.clientList[i].entity;
 
-        char expiryDate[10];
-        printf("expiryDate, %02d/%02d",
-               client->currentCardInformation.expireDate.month,
-               client->currentCardInformation.expireDate.year % 100);
+        // Format expiry date
+        char expiryDate[6];
+        snprintf(expiryDate, sizeof(expiryDate), "%02d/%02d",
+                 client->currentCardInformation.expireDate.month,
+                 client->currentCardInformation.expireDate.year % 100);
 
-        fprintf("%-20s %-15s %-16d %-10s %-12d ",
-               client->ClientName,
-               client->currentCardInformation.brandName,
-               client->currentCardInformation.CreditCardNumber,
-               expiryDate,
-               client->currentCardInformation.SecurityCode);
+        fprintf(file, "%-20s %-15.2f %-20s %-20d %-10s %-14d ",
+                client->ClientName,
+                client->balance,
+                client->currentCardInformation.brandName,
+                client->currentCardInformation.CreditCardNumber,
+                expiryDate,
+                client->currentCardInformation.SecurityCode);
 
-        if (client->count > 1){
-            fprintf("%-15s %-15s %-15s %-15s %-12d %-12d %-15d\n",
-                   client-> BillingInformation.BillingAddress,
-                   client-> BillingInformation.Country,
-                   client-> BillingInformation.City,
-                   client-> BillingInformation.State,
-                   client-> BillingInformation.PostalCode);
-
-
-        }else{
-            printf("%-15s %-15s %-15s %-15s %-12s %-12s %-15s\n",
-                   "N/A", "N/A", "N/A", "N/A", "N/A", "N/A", "N/A");
-
+        // Write billing info
+        if (client->BillingInformation.BillingAddress != NULL){
+            fprintf(file, "%-20s %-15s %-15s %-15s %-12d %-14d %-15d\n",
+                    client->BillingInformation.BillingAddress,
+                    client->BillingInformation.Country,
+                    client->BillingInformation.City,
+                    client->BillingInformation.State,
+                    client->BillingInformation.PostalCode);
+        } else {
+            fprintf(file, "%-20s %-15s %-15s %-15s %-12s %-14s %-15s\n",
+                    "N/A", "N/A", "N/A", "N/A", "N/A", "N/A", "N/A");
         }
     }
 
-    fprintf("-------------------- --------------- --------------- ---------------- ---------- ------------ --------------- --------------- --------------- --------------- ------------ ------------ ---------------\n");
+    fprintf(file, "-------------------- --------------- -------------------- -------------------- ---------- -------------- -------------------- --------------- --------------- --------------- ------------ -------------- ---------------\n");
     fclose(file);
-    printf("Client information is saved and stored in output/clientinformation.txt file successfully\n");
+    printf("Client information successfully saved to output/clientinformation.txt\n");
 }
