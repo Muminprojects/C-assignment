@@ -355,13 +355,13 @@ void DisplayClientList_Terminal(const database* database){
 
         if (client->count > 1){
             printf("%-15s %-15s %-15s %-15s %-12d %-12d %-15d\n",
-                   client->receipts[client->count - 1].BillingInformation.BillingAddress,
-                   client->receipts[client->count - 1].BillingInformation.Country,
-                   client->receipts[client->count - 1].BillingInformation.City,
-                   client->receipts[client->count - 1].BillingInformation.State,
-                   client->receipts[client->count - 1].BillingInformation.PostalCode,
-                   client->receipts[client->count - 1].BillingInformation.PhoneNumber.countryCode,
-                   client->receipts[client->count - 1].BillingInformation.PhoneNumber.phoneNumber);
+                   client-> &BillingInformation.BillingAddress,
+                   client-> &BillingInformation.Country,
+                   client-> &BillingInformation.City,
+                   client-> &BillingInformation.State,
+                   client-> &BillingInformation.PostalCode,
+                   client-> &BillingInformation.PhoneNumber.countryCode,
+                   client-> &BillingInformation.PhoneNumber.phoneNumber);
 
         }else{
             printf("%-15s %-15s %-15s %-15s %-12s %-12s %-15s\n",
@@ -423,13 +423,13 @@ void Clientlist_TextFile(const database* database){
 
         if (client->count > 1){
             fprintf("%-15s %-15s %-15s %-15s %-12d %-12d %-15d\n",
-                   client->receipts[client->count - 1].BillingInformation.BillingAddress,
-                   client->receipts[client->count - 1].BillingInformation.Country,
-                   client->receipts[client->count - 1].BillingInformation.City,
-                   client->receipts[client->count - 1].BillingInformation.State,
-                   client->receipts[client->count - 1].BillingInformation.PostalCode,
-                   client->receipts[client->count - 1].BillingInformation.PhoneNumber.countryCode,
-                   client->receipts[client->count - 1].BillingInformation.PhoneNumber.phoneNumber);
+                   client-> &BillingInformation.BillingAddress,
+                   client-> &BillingInformation.Country,
+                   client-> &BillingInformation.City,
+                   client-> &BillingInformation.State,
+                   client-> &BillingInformation.PostalCode,
+                   client-> &BillingInformation.PhoneNumber.countryCode,
+                   client-> &BillingInformation.PhoneNumber.phoneNumber);
 
 
         }else{
@@ -439,8 +439,6 @@ void Clientlist_TextFile(const database* database){
         }
 
     }
-
-
 
         fprintf("-------------------- --------------- ---------------- ---------- ------------ --------------- --------------- --------------- --------------- ------------ ------------ ---------------\n");
 
