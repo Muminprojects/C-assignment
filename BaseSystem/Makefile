@@ -1,3 +1,4 @@
+#makefile for generating finance.out
 CC = gcc
 CFLAGS = -Wall -Werror -ansi 
 
