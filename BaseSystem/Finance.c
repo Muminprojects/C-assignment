@@ -320,9 +320,6 @@ void DisplayClientList_Terminal(const database* database){
         return;
     }
 
-    printf("\nEntity"                           "Card Information"                          "Billing Address"                   "Phone Number\n");
-    printf("-------------------- ---------------------------------------- -------------------------------------------------- -------------------------\n");
-
     printf("%20s %-15s %-18s %-10s %-12s %-15s %-15s %-15s %-15s %-12s %-12s %-15s\n",
            "Client Name", "Brand Name", "CreditCard Number", "Expiry Date", "Security Code",
            "Billing Address", "Country", "City", "State", "PostalCode", "Country Code", "Phone Number");
@@ -388,9 +385,6 @@ void Clientlist_TextFile(const database* database){
         printf("File created: output/clientinformation.txt\n");
         return;
     }
-
-    fprintf("\nEntity"                           "Card Information"                          "Billing Address"                   "Phone Number\n");
-    fprintf("-------------------- ---------------------------------------- -------------------------------------------------- -------------------------\n");
 
     fprintf("%20s %-15s %-18s %-10s %-12s %-15s %-15s %-15s %-15s %-12s %-12s %-15s\n",
            "Client Name", "Brand Name", "CreditCard Number", "Expiry Date", "Security Code",

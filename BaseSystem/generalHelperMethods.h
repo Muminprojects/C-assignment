@@ -16,17 +16,6 @@ struct expDate {
 };
 typedef struct expDate expiry_Date;
 
-
-/*	Normal Date	*/
-struct nomDate {
-    int day;
-    int month;
-    int year;
-};
-typedef struct nomDate normal_Date;
- 
-
-
 void GetUserInput(char* inputString, int inputSize, const char* prompt);
 int ConvertStringToInt(char* inputString);
 float ConvertStringToFloat(char* inputString);
