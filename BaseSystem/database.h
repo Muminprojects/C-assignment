@@ -71,14 +71,13 @@ void getUserInput_InventoryMenu(database* dataB);
 
 void DeleteClient(Entity* client, database* database);
 Entity* FindClient(const char name[21], const database* database);
-card_Information* GetCardInformation(const char name[21], const database* database);
 void InitalizeNewEntity(database* database);
 
 void AddAmountToBalance(database* database);
 void RemoveAmountFromBalance(database* database);
 
-card_Information* InitalizeNewCardInfomration(char* CardholderName[21]);
-billing_Info* InitalizeNewBillingInformaTion();
+card_Information InitalizeNewCardInfomration(char* CardholderName[21]);
+billing_Info InitalizeNewBillingInformaTion();
 void ReorderList(int removedElement, database* database);
 void SaveDatabase(const database* dataB, const char* filename);
 void loadFromFile(database* dataB, const char* filename);

@@ -25,26 +25,6 @@ EntityDictionaryDefinition* FindClient(const char name[21], database* db)
     }
     return NULL;
 }
-
-
-/*--------------------------------------------------------------*/
-/*  Author: Nestor Batoon
-    Function:
-
-    Input:
-
-    Output:						*/
-/*--------------------------------------------------------------*/
-card_Information* GetCardInformation(const char name[21], const database* database)
-{
-    EntityDictionaryDefinition* clientHistory = FindClient(name, database);
-    if(clientHistory == NULL)
-        return NULL;
-
-    return &clientHistory -> entity -> currentCardInformation;
-}
-
-
 /*--------------------------------------------------------------*/
 /*  Author: Nestor Batoon
     Function:
@@ -68,6 +48,7 @@ void InitalizeNewEntity(database* db)
     memset(newEnt, 0, sizeof(*newEnt));
 
     strcpy(newEnt->ClientName, CardholderName);
+
     newEnt->currentCardInformation = InitalizeNewCardInfomration(CardholderName);
     newEnt->BillingInformation = InitalizeNewBillingInformaTion();
 
@@ -108,11 +89,11 @@ billing_Info InitalizeNewBillingInformaTion()
     }
 
     GetUserInput(postalCode, 5, "Enter post code");
-    BillingInformation.postalCode = ConvertStringToInt(postalCode);
+    BillingInformation.PostalCode = ConvertStringToInt(postalCode);
     while(!isInputValid(postalCode, 5) != 0)
     {
         GetUserInput(postalCode, 5, "Enter post code");
-        BillingInformation.postalCode = ConvertStringToInt(postalCode);
+        BillingInformation.PostalCode = ConvertStringToInt(postalCode);
     }
 
     GetUserInput(cntry, 16, "Enter country");
@@ -150,7 +131,7 @@ billing_Info InitalizeNewBillingInformaTion()
 
     Output:						*/
 /*--------------------------------------------------------------*/
-card_Information* InitalizeNewCardInfomration(char* CardholderName[21])
+card_Information InitalizeNewCardInfomration(char* CardholderName[21])
 {
     card_Information newCard = {0};
 
@@ -201,7 +182,7 @@ card_Information* InitalizeNewCardInfomration(char* CardholderName[21])
         newCard.SecurityCode = ConvertStringToInt(ExpiryMonth);
     }
 
-    return &newCard;
+    return newCard;
 }
 
 /*--------------------------------------------------------------*/
@@ -226,7 +207,7 @@ void AddAmountToBalance(database* database)
         return;
     }
     int amount;
-    printf("\nEnter amount to add to client balance:")
+    printf("\nEnter amount to add to client balance:");
     scanf("\n%d", &amount);
 
     client ->balance +=amount;
@@ -254,7 +235,7 @@ void RemoveAmountFromBalance(database* database)
         return;
     }
     int amount;
-    printf("\nEnter amount to remove from client balance:")
+    printf("\nEnter amount to remove from client balance:");
     scanf("\n%d", &amount);
 
     client ->balance -=amount;
@@ -271,7 +252,7 @@ void RemoveAmountFromBalance(database* database)
 /*--------------------------------------------------------------*/
 void DeleteClient(Entity client, database* database)
 {
-    int clientToDelete_Index = client->index;
+    int clientToDelete_Index = client.count;
     database -> finance.clientList[clientToDelete_Index].entity = NULL;
     ReorderList(clientToDelete_Index, database);
 }
@@ -313,11 +294,11 @@ void DisplayClientList_Terminal(const database* database){
         return;
     }
 
-    printf("%20s %-15s %-18s %-10s %-12s %-15s %-15s %-15s %-15s %-12s %-12s %-15s\n",
-           "Client Name", "Brand Name", "CreditCard Number", "Expiry Date", "Security Code",
+    printf("%20s %-15s %-15s %-18s %-10s %-12s %-15s %-15s %-15s %-15s %-12s %-12s %-15s\n",
+           "Client Name", "Balance", "Brand Name", "CreditCard Number", "Expiry Date", "Security Code",
            "Billing Address", "Country", "City", "State", "PostalCode", "Country Code", "Phone Number");
 
-    printf("-------------------- --------------- ------------------ ---------- ------------ --------------- --------------- --------------- --------------- ------------ ------------ ---------------\n");
+    printf("-------------------- --------------- --------------- ------------------ ---------- ------------ --------------- --------------- --------------- --------------- ------------ ------------ ---------------\n");
 
     int i;
     for (int i = 0; i < database->finance.count; ++i){
@@ -330,7 +311,7 @@ void DisplayClientList_Terminal(const database* database){
 
         char expiryDate[10];
         printf("expiryDate, %02d/%02d",
-               client->currentCardInformation.expireDate.month
+               client->currentCardInformation.expireDate.month,
                client->currentCardInformation.expireDate.year % 100);
 
         printf("%-20s %-15s %-16d %-10s %-12d ",
@@ -345,23 +326,18 @@ void DisplayClientList_Terminal(const database* database){
 
         if (client->count > 1){
             printf("%-15s %-15s %-15s %-15s %-12d %-12d %-15d\n",
-                   client-> &BillingInformation.BillingAddress,
-                   client-> &BillingInformation.Country,
-                   client-> &BillingInformation.City,
-                   client-> &BillingInformation.State,
-                   client-> &BillingInformation.PostalCode,
-                   client-> &BillingInformation.PhoneNumber.countryCode,
-                   client-> &BillingInformation.PhoneNumber.phoneNumber);
+                   client-> BillingInformation.BillingAddress,
+                   client-> BillingInformation.Country,
+                   client-> BillingInformation.City,
+                   client-> BillingInformation.State,
+                   client-> BillingInformation.PostalCode);
 
         }else{
             printf("%-15s %-15s %-15s %-15s %-12s %-12s %-15s\n",
                    "N/A", "N/A", "N/A", "N/A", "N/A", "N/A", "N/A");
         }
-
-
-
     }
-    printf("-------------------- --------------- ---------------- ---------- ------------ --------------- --------------- --------------- --------------- ------------ ------------ ---------------\n");
+    printf("-------------------- --------------- --------------- ---------------- ---------- ------------ --------------- --------------- --------------- --------------- ------------ ------------ ---------------\n");
 }
 
 /*--------------------------------------------------------------*/
@@ -387,11 +363,11 @@ void Clientlist_TextFile(const database* database){
         return;
     }
 
-    fprintf("%20s %-15s %-18s %-10s %-12s %-15s %-15s %-15s %-15s %-12s %-12s %-15s\n",
-           "Client Name", "Brand Name", "CreditCard Number", "Expiry Date", "Security Code",
+    fprintf("%20s %-15s %-15s %-18s %-10s %-12s %-15s %-15s %-15s %-15s %-12s %-12s %-15s\n",
+           "Client Name", "Balance", "Brand Name", "CreditCard Number", "Expiry Date", "Security Code",
            "Billing Address", "Country", "City", "State", "PostalCode", "Country Code", "Phone Number");
 
-    fprintf("-------------------- --------------- ------------------ ---------- ------------ --------------- --------------- --------------- --------------- ------------ ------------ ---------------\n");
+    fprintf("-------------------- --------------- --------------- ------------------ ---------- ------------ --------------- --------------- --------------- --------------- ------------ ------------ ---------------\n");
 
     int i;
     for (int i = 0; i < database->finance.count; ++i){
@@ -403,7 +379,7 @@ void Clientlist_TextFile(const database* database){
 
         char expiryDate[10];
         printf("expiryDate, %02d/%02d",
-               client->currentCardInformation.expireDate.month
+               client->currentCardInformation.expireDate.month,
                client->currentCardInformation.expireDate.year % 100);
 
         fprintf("%-20s %-15s %-16d %-10s %-12d ",
@@ -415,13 +391,11 @@ void Clientlist_TextFile(const database* database){
 
         if (client->count > 1){
             fprintf("%-15s %-15s %-15s %-15s %-12d %-12d %-15d\n",
-                   client-> &BillingInformation.BillingAddress,
-                   client-> &BillingInformation.Country,
-                   client-> &BillingInformation.City,
-                   client-> &BillingInformation.State,
-                   client-> &BillingInformation.PostalCode,
-                   client-> &BillingInformation.PhoneNumber.countryCode,
-                   client-> &BillingInformation.PhoneNumber.phoneNumber);
+                   client-> BillingInformation.BillingAddress,
+                   client-> BillingInformation.Country,
+                   client-> BillingInformation.City,
+                   client-> BillingInformation.State,
+                   client-> BillingInformation.PostalCode);
 
 
         }else{
@@ -431,7 +405,7 @@ void Clientlist_TextFile(const database* database){
         }
     }
 
-    fprintf("-------------------- --------------- ---------------- ---------- ------------ --------------- --------------- --------------- --------------- ------------ ------------ ---------------\n");
+    fprintf("-------------------- --------------- --------------- ---------------- ---------- ------------ --------------- --------------- --------------- --------------- ------------ ------------ ---------------\n");
     fclose(file);
     printf("Client information is saved and stored in output/clientinformation.txt file successfully\n");
 }

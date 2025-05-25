@@ -51,7 +51,7 @@ void getUserInput_MainMenu(database* dataB)
             SaveDatabase(dataB, dataB->dbFileName);
             break;
         case 2:
-            UpdateClientDetailsMenu(dataB)
+            UpdateClientDetailsMenu(dataB);
             break;
         case 3:
             char* ClientName;
@@ -59,7 +59,7 @@ void getUserInput_MainMenu(database* dataB)
                 GetUserInput(ClientName, 21, "Enter New Client's Name");
             } while (!isInputValid(ClientName, 20));
 
-            Entity* client = FindClient(ClientName, database);
+            Entity* client = FindClient(ClientName, dataB);
             if(client == NULL)
             {
                 printf("\n Error! Client not found! \n");
@@ -140,7 +140,7 @@ void getUserInput_UpdateClientDetailsMenu(database* dataB) {
             RemoveAmountFromBalance(dataB);
             break;
         case 3:
-            printMainMenu();
+            printMainMenu(dataB);
             return;
         default:
             printf("Invalid choice.\n");
