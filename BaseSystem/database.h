@@ -73,16 +73,13 @@ void DeleteClient(Entity* client, database* database);
 Entity* FindClient(const char name[21], const database* database);
 card_Information* GetCardInformation(const char name[21], const database* database);
 void InitalizeNewEntity(database* database);
+
+void AddAmountToBalance(database* database);
+void RemoveAmountFromBalance(database* database);
+
 card_Information* InitalizeNewCardInfomration(char* CardholderName[21]);
 billing_Info* InitalizeNewBillingInformaTion();
-void ProcessNewOrder(const database* database);
 void ReorderList(int removedElement, database* database);
-
-InvntoryItem* GetInventoryItem(int uniqueStockID, const database* database);
-Inventory* GetInventory (const database* database);
-
-/*    Helper Functions Defintions for Inventory */
-
 void SaveDatabase(const database* dataB, const char* filename);
 void loadFromFile(database* dataB, const char* filename);
 

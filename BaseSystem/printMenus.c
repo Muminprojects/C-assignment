@@ -12,28 +12,19 @@
 /*--------------------------------------------------------------*/
 void printMainMenu(database* dataB) {
     printf("\nBusiness Management System\n"
-        "1. Finance section\n"
-        "2. Inventory section\n"
-        "3. End Program\n"
+        "1. Add Client to system\n"
+        "2. Update client balance\n"
+        "3. Remove Client from system\n"
+        "4. Display list of clients\n"
+        "5. Produce Textfile with a list of clients\n"\
+        "6. Exit terminal application\n"
         "Enter your choice>\n");
 
     getUserInput_MainMenu(dataB);
-
-}
-
-void printFinanceMenu(database* dataB)
-{
-        printf("\nBusiness Management System\n"
-        "1.Process New Order\n"
-        "2.Display client list\n"
-        "3.Produce textfile of client list\n"
-        "4.Return to main menu\n"
-        "Enter your choice>\n");
-        getUserInput_FinanceMenu(dataB);
 }
 /*--------------------------------------------------------------*/
 /* Author: Nestor Batoon */
-/*	Function: getUserInput	*/
+/*	Function: getUserInput_MainMenu	*/
 /*	Takes user inputs of integer digits and executes functions
     assigned to them
 
@@ -43,7 +34,7 @@ void printFinanceMenu(database* dataB)
     - 'dbFileName' : string of file name for file-related functions*/
 /*--------------------------------------------------------------*/
 
-void getUserInput_FinanceMenu(database* dataB)
+void getUserInput_MainMenu(database* dataB)
 {
     int choice;
     /*	Use result as a boolean to store whether integer was given	*/
@@ -56,17 +47,34 @@ void getUserInput_FinanceMenu(database* dataB)
         switch (choice)
         {
         case 1:
-            ProcessNewOrder(dataB);
+            InitalizeNewEntity(dataB); 
             SaveDatabase(dataB, dataB->dbFileName);
             break;
         case 2:
-            DisplayClientList_Terminal(dataB);
+            UpdateClientDetailsMenu(dataB)
             break;
         case 3:
-            Clientlist_TextFile(dataB);
+            char* ClientName;
+                do {
+                GetUserInput(ClientName, 21, "Enter New Client's Name");
+            } while (!isInputValid(ClientName, 20));
+
+            Entity* client = FindClient(ClientName, database);
+            if(client == NULL)
+            {
+                printf("\n Error! Client not found! \n");
+                return;
+            }
+            DeleteClient(ClientName, dataB);
             break;
         case 4:
-            printMainMenu(0);
+            DisplayClientList_Terminal(dataB);
+            break;
+        case 5:
+            Clientlist_TextFile(dataB);
+            return;
+        case 6:
+            exit(0); 
             return;
         default:
             printf("Invalid choice.\n");
@@ -74,7 +82,30 @@ void getUserInput_FinanceMenu(database* dataB)
         }
     }
     PrintFinanceMenu(dataB);
+    SaveDatabase(dataB, dataB->dbFileName);
 }
+
+/*--------------------------------------------------------------*/
+/* Author: Nestor Batoon */
+/*	Function: getUserInput_MainMenu	*/
+/*	Takes user inputs of integer digits and executes functions
+    assigned to them
+
+    inputs:
+    - 'lib' : takes library_t pointer to pass on to other functions
+       that will need access to the struct
+    - 'dbFileName' : string of file name for file-related functions 										*/
+/*--------------------------------------------------------------*/
+void UpdateClientDetailsMenu(database* dataB) {
+    printf("\nBusiness Management System\n"
+        "1. Add amount to client balance\n"
+        "2. Remove amount from client balance\n"
+        "3. Return to Main Menu\n"
+        "Enter your choice>\n");
+
+    getUserInput_UpdateClientDetailsMenu(dataB);
+}
+
 /*--------------------------------------------------------------*/
 /* Author: Nestor Batoon */
 /*	Function: getUserInput_MainMenu	*/
@@ -88,7 +119,7 @@ void getUserInput_FinanceMenu(database* dataB)
 /*--------------------------------------------------------------*/
 
 
-void getUserInput_MainMenu(database* dataB) {
+void getUserInput_UpdateClientDetailsMenu(database* dataB) {
     /*	Await user input and store it in choice	*/
     int choice;
     /*	Use result as a boolean to store whether integer was given	*/
@@ -101,84 +132,20 @@ void getUserInput_MainMenu(database* dataB) {
         switch (choice)
         {
         case 1:
-            PrintFinanceMenu(dataB);
+            DisplayClientList_Terminal;
+            AddAmountToBalance(dataB);
             break;
         case 2:
-            PrintInventoryMenu(dataB);
+            DisplayClientList_Terminal;
+            RemoveAmountFromBalance(dataB);
             break;
         case 3:
-            exit(0);
-            break;
+            printMainMenu();
+            return;
         default:
             printf("Invalid choice.\n");
             break;
         }
     }
-    printMainMenu(dataB);
-}
-
-
-void SelectedchoiceInventory(database* dataB){
-    int choice;
-    int selectoption = scanf("%d", &choice);
-    if (selectoption == 1) {
-        switch(choice){
-            case 1:
-                ProduceStockItemList_Terminal(dataB);
-                break;
-            case 2:
-                CreateNewInventoryItem(dataB);
-                SaveDatabase(dataB, dataB->dbFileName);
-                break;
-            case 3:
-                PrintStockItemManipulationMenu(dataB);
-                break;
-            case 4: {
-                printf("\n Deleting item stock...");
-                ProduceStockItemList_Terminal(dataB);
-                int input;
-                printf("\n Enter Unique Stock ID of Stock you want to remove from database ");
-                scanf("%d", &input);
-                InvntoryItem* item = GetInventoryItem(input, dataB);
-                if (item == NULL)
-                    printf("Error: Item not found\n");
-                else
-                    DeleteInventoryItem(item, dataB);
-                break;
-            }
-            case 5:
-                ProduceStockItemTextFile(dataB);
-                break;
-            case 6:
-                printMainMenu(dataB);
-                return;
-            default:
-                printf("Invalid choice.\n");
-                break;
-        }
-    }
-    PrintInventoryMenu(dataB);
-}
-
-/*--------------------------------------------------------------*/
-/* Author: Ashwin Jacob */
-/*	Function: getUserInput	*/
-/*	Takes user inputs of integer digits and executes functions
-    assigned to them
-
-    inputs:
-    - 'lib' : takes library_t pointer to pass on to other functions
-       that will need access to the struct
-    - 'dbFileName' : string of file name for file-related functions 										*/
-/*--------------------------------------------------------------*/
-void PrintInventoryMenu(database* dataB){
- printf("\nBusiness Management System: Inventory Management System\n"
-    "1.Display Inventory\n"
-    "2.Add New Inventory Item\n"
-    "3.Edit an Inventory Item\n"
-    "4.Delete Inventory Item\n"
-    "5.Export Inventory to Textfile\n"
-    "6.Return\n"
-    "Enter your choice>\n");
-    SelectedchoiceInventory(dataB);
+    UpdateClientDetailsMenu(dataB);
 }

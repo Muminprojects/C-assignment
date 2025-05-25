@@ -52,15 +52,14 @@ card_Information* GetCardInformation(const char name[21], const database* databa
     Input:
 
     Output:						*/
+/*--------------------------------------------------------------*/
 void InitalizeNewEntity(database* db)
 {
-    // 1) get a valid name buffer
     char CardholderName[21];
     do {
         GetUserInput(CardholderName, 21, "Enter New Client's Name");
     } while (!isInputValid(CardholderName, 20));
 
-    // 2) allocate a new Entity on the heap
     Entity* newEnt = malloc(sizeof(Entity));
     if (!newEnt) {
         fprintf(stderr, "Error: out of memory\n");
@@ -205,6 +204,33 @@ card_Information* InitalizeNewCardInfomration(char* CardholderName[21])
     return &newCard;
 }
 
+/*--------------------------------------------------------------*/
+/*  Author: Nestor Batoon
+    Function:
+
+    Input:
+
+    Output:						*/
+/*--------------------------------------------------------------*/
+void AddAmountToBalance(database* database)
+{
+    char* ClientName;
+        do {
+        GetUserInput(ClientName, 21, "Enter New Client's Name");
+    } while (!isInputValid(ClientName, 20));
+
+    Entity* client = FindClient(ClientName, database);
+    if(client == NULL)
+    {
+        printf("\n Error! Client not found! \n");
+        return;
+    }
+    int amount;
+    printf("\nEnter amount to add to client balance:")
+    scanf("\n%d", &amount);
+
+    client ->balance +=amount;
+}
 
 /*--------------------------------------------------------------*/
 /*  Author: Nestor Batoon
@@ -214,64 +240,24 @@ card_Information* InitalizeNewCardInfomration(char* CardholderName[21])
 
     Output:						*/
 /*--------------------------------------------------------------*/
-void ProcessNewOrder(const database* database)
+void RemoveAmountFromBalance(database* database)
 {
-    char* ClientName[21];
-    int choice;
+    char* ClientName;
+        do {
+        GetUserInput(ClientName, 21, "Enter New Client's Name");
+    } while (!isInputValid(ClientName, 20));
 
-    GetUserInput(ClientName, 21, "Enter client's name");
-
-    Entity client = *FindClient(ClientName, database);
-
+    Entity* client = FindClient(ClientName, database);
     if(client == NULL)
     {
-        printf("\n Client not found in system. Would you like to inialize new client?"
-            "\n1. Yes"
-            "\n2. No\n ");
-
-        int choice;
-        int result = scanf("%d", &choice);
-        if (result == 1)
-        {
-            switch(choice)
-            {
-                case 1:
-                    client = InitalizeNewEntity(database);
-                    break;
-
-                case 2:
-                    printf("\n returning to finance menu...");
-                    printFinanceMenu(database);
-                    break;
-
-                default:
-                printFinanceMenu(database);
-                break;
-            }
-        }
-    }
-
-    InvntoryItem* invItem;
-    ProduceStockItemList_Terminal();
-    int amount, uniqueStockID;
-    printf("\n Enter the Unique Stock ID of the item ordered\n ");
-    scanf("%d", &choice);
-    invItem = GetInventoryItem(uniqueStockID, database);
-
-    if(invItem == NULL)
-    {
-        printf("\n Stock ID invalid... terminating operation and returning to menu");
-        //return to previous menu
+        printf("\n Error! Client not found! \n");
         return;
     }
+    int amount;
+    printf("\nEnter amount to remove from client balance:")
+    scanf("\n%d", &amount);
 
-    printf("\n Enter amount ordered\n ");
-    scanf("%d", &amount);
-    float cost = amount * item -> stock.sellingPrice;
-    printf("\n%s has order %d of %s for %f ", client.ClientName, amount, invItem-> stock.stockName);
-    RemoveAmountFromStocckTotal(amount, invItem);
-    database->finance.totalBalance += cost;
-    SaveDatabase(database, database->dbFileName);
+    client ->balance -=amount;
 }
 
 
@@ -283,9 +269,8 @@ void ProcessNewOrder(const database* database)
 
     Output:						*/
 /*--------------------------------------------------------------*/
-void DeleteClient(const char ClientName[21], database* database)
+void DeleteClient(Entity client, database* database)
 {
-    EntityDictionaryDefinition* client = FindClient(ClientName, database);
     int clientToDelete_Index = client->index;
     database -> finance.clientList[clientToDelete_Index].entity = NULL;
     ReorderList(clientToDelete_Index, database);
@@ -313,6 +298,14 @@ void ReorderList(int removedElement, database* database)
     database -> finance.count--;
 }
 
+/*--------------------------------------------------------------*/
+/*  Author: Nestor Batoon
+    Function:
+
+    Input:
+
+    Output:						*/
+/*--------------------------------------------------------------*/
 void DisplayClientList_Terminal(const database* database){
 
     if (database->finance.count == 0){
@@ -371,6 +364,14 @@ void DisplayClientList_Terminal(const database* database){
     printf("-------------------- --------------- ---------------- ---------- ------------ --------------- --------------- --------------- --------------- ------------ ------------ ---------------\n");
 }
 
+/*--------------------------------------------------------------*/
+/*  Author: Nestor Batoon
+    Function:
+
+    Input:
+
+    Output:						*/
+/*--------------------------------------------------------------*/
 void Clientlist_TextFile(const database* database){
     FILE* file = fopen("output/clientinformation.txt", "w");
 
@@ -412,9 +413,6 @@ void Clientlist_TextFile(const database* database){
                expiryDate,
                client->currentCardInformation.SecurityCode);
 
-
-
-
         if (client->count > 1){
             fprintf("%-15s %-15s %-15s %-15s %-12d %-12d %-15d\n",
                    client-> &BillingInformation.BillingAddress,
@@ -431,11 +429,9 @@ void Clientlist_TextFile(const database* database){
                    "N/A", "N/A", "N/A", "N/A", "N/A", "N/A", "N/A");
 
         }
-
     }
 
-        fprintf("-------------------- --------------- ---------------- ---------- ------------ --------------- --------------- --------------- --------------- ------------ ------------ ---------------\n");
-
-        fclose(file);
-        printf("Client information is saved and stored in output/clientinformation.txt file successfully\n");
+    fprintf("-------------------- --------------- ---------------- ---------- ------------ --------------- --------------- --------------- --------------- ------------ ------------ ---------------\n");
+    fclose(file);
+    printf("Client information is saved and stored in output/clientinformation.txt file successfully\n");
 }
