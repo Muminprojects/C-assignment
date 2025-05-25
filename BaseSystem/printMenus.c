@@ -21,6 +21,16 @@ void printMainMenu(database* dataB) {
 
 }
 
+void printFinanceMenu(database* dataB)
+{
+        printf("\nBusiness Management System\n"
+        "1.Process New Order\n"
+        "2.Display client list\n"
+        "3.Produce textfile of client list\n"
+        "4.Return to main menu\n"
+        "Enter your choice>\n");
+        getUserInput_FinanceMenu(dataB);
+}
 /*--------------------------------------------------------------*/
 /* Author: Nestor Batoon */
 /*	Function: getUserInput	*/
@@ -32,20 +42,10 @@ void printMainMenu(database* dataB) {
        that will need access to the struct
     - 'dbFileName' : string of file name for file-related functions*/
 /*--------------------------------------------------------------*/
-void PrintFinanceMenu(database* dataB)
-{
-    printf("\nBusiness Management System: Finance Management\n"
-    "Total balance: $%f\n"
-    "1. Process new customer order\n"
-    "2. Display client information\n"
-    "3. Produce textfile of client information\n"
-    "4. Return\n"
-    "Enter your choice>\n", dataB->finance.totalBalance);
-}
 
 void getUserInput_FinanceMenu(database* dataB)
 {
-     int choice;
+    int choice;
     /*	Use result as a boolean to store whether integer was given	*/
     int result = scanf("%d", &choice);
 
@@ -116,6 +116,8 @@ void getUserInput_MainMenu(database* dataB) {
     }
     printMainMenu(dataB);
 }
+
+
 void SelectedchoiceInventory(database* dataB){
     int choice;
     int selectoption = scanf("%d", &choice);
@@ -186,6 +188,3 @@ void PrintInventoryMenu(database* dataB){
     "Enter your choice>\n");
     SelectedchoiceInventory(dataB);
 }
-
-
-

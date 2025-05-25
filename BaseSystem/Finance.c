@@ -101,7 +101,7 @@ billing_Info* InitalizeNewBillingInformaTion()
     while (!isInputValid(billAddress, 21) != 0) {
         GetUserInput(billAddress, 26, "Enter address");
         strcpy(BillingInformation.BillingAddress, billAddress);
-    } 
+    }
 
     GetUserInput(postalCode, 5, "Enter post code");
     BillingInformation.postalCode = ConvertStringToInt(postalCode);
@@ -117,7 +117,7 @@ billing_Info* InitalizeNewBillingInformaTion()
     {
         GetUserInput(cntry, 16, "Enter country");
         strcpy(BillingInformation.Country, cntry);
-    } 
+    }
 
     GetUserInput(city, 16, "Enter City");
     strcpy(BillingInformation.City, city);
@@ -134,7 +134,7 @@ billing_Info* InitalizeNewBillingInformaTion()
         GetUserInput(state, 16, "Enter State");
         strcpy(BillingInformation.State, state);
     }
-          
+
 
     return &BillingInformation;
 }
@@ -187,7 +187,7 @@ card_Information* InitalizeNewCardInfomration(char* CardholderName[21])
         GetUserInput(ExpiryYear, 5, "Enter CreditCard's Year of Expiry");
         newExpiry_Date.year = ConvertStringToInt(ExpiryYear);
     }
-         
+
     newCard.expireDate = newExpiry_Date;
 
     GetUserInput(SecurityCode, 5, "Enter CreditCard's Month of Expiry");
@@ -215,10 +215,10 @@ void ProcessNewOrder(const database* database)
     char* ClientName[21];
     int choice;
 
-    GetUserInput(ClientName, 21, "Enter client's name"); 
+    GetUserInput(ClientName, 21, "Enter client's name");
 
     Entity client = *FindClient(ClientName, database);
-    
+
     if(client == NULL)
     {
         printf("\n Client not found in system. Would you like to inialize new client?"
@@ -234,16 +234,17 @@ void ProcessNewOrder(const database* database)
                 case 1:
                     client = InitalizeNewEntity(database);
                     break;
-                
+
                 case 2:
-                    //return to previous menu
+                    printf("\n returning to finance menu...");
+                    printFinanceMenu(database);
                     break;
 
                 default:
-                //return to previous menu
+                printFinanceMenu(database);
                 break;
             }
-        } 
+        }
     }
 
     InvntoryItem* invItem;
@@ -262,7 +263,7 @@ void ProcessNewOrder(const database* database)
 
     printf("\n Enter amount ordered\n ");
     scanf("%d", &amount);
-    float cost = amount * item -> stock.sellingPrice; 
+    float cost = amount * item -> stock.sellingPrice;
     printf("\n%s has order %d of %s for %f ", client.ClientName, amount, invItem-> stock.stockName);
     RemoveAmountFromStocckTotal(amount, invItem);
     database->finance.totalBalance += cost;
@@ -321,7 +322,7 @@ void DisplayClientList_Terminal(const database* database){
     printf("%20s %-15s %-18s %-10s %-12s %-15s %-15s %-15s %-15s %-12s %-12s %-15s\n",
            "Client Name", "Brand Name", "CreditCard Number", "Expiry Date", "Security Code",
            "Billing Address", "Country", "City", "State", "PostalCode", "Country Code", "Phone Number");
-    
+
     printf("-------------------- --------------- ------------------ ---------- ------------ --------------- --------------- --------------- --------------- ------------ ------------ ---------------\n");
 
     int i;
@@ -336,8 +337,8 @@ void DisplayClientList_Terminal(const database* database){
         char expiryDate[10];
         printf("expiryDate, %02d/%02d",
                client->currentCardInformation.expireDate.month
-               client->currentCardInformation.expireDate.year % 100); 
-        
+               client->currentCardInformation.expireDate.year % 100);
+
         printf("%-20s %-15s %-16d %-10s %-12d ",
                client->ClientName,
                client->currentCardInformation.brandName,
@@ -347,7 +348,7 @@ void DisplayClientList_Terminal(const database* database){
 
 
 
-        
+
         if (client->count > 1){
             printf("%-15s %-15s %-15s %-15s %-12d %-12d %-15d\n",
                    client->receipts[client->count - 1].BillingInformation.BillingAddress,
@@ -370,10 +371,7 @@ void DisplayClientList_Terminal(const database* database){
 }
 
 void Clientlist_TextFile(const database* database){
-
-    char filePath [250] = "C:\\Users\\Ashwin\\Documents\\GitHub\\C-assignment\\output\\clientinformation.txt";
-
-    FILE* file = fopen(filePath, "w");
+    FILE* file = fopen("output/clientinformation.txt", "w");
 
     if (file == NULL){
         printf("Error for Opening file for Writing\n");
@@ -393,7 +391,7 @@ void Clientlist_TextFile(const database* database){
     fprintf("%20s %-15s %-18s %-10s %-12s %-15s %-15s %-15s %-15s %-12s %-12s %-15s\n",
            "Client Name", "Brand Name", "CreditCard Number", "Expiry Date", "Security Code",
            "Billing Address", "Country", "City", "State", "PostalCode", "Country Code", "Phone Number");
-    
+
     fprintf("-------------------- --------------- ------------------ ---------- ------------ --------------- --------------- --------------- --------------- ------------ ------------ ---------------\n");
 
     int i;
@@ -407,8 +405,8 @@ void Clientlist_TextFile(const database* database){
         char expiryDate[10];
         printf("expiryDate, %02d/%02d",
                client->currentCardInformation.expireDate.month
-               client->currentCardInformation.expireDate.year % 100); 
-        
+               client->currentCardInformation.expireDate.year % 100);
+
         fprintf("%-20s %-15s %-16d %-10s %-12d ",
                client->ClientName,
                client->currentCardInformation.brandName,
@@ -418,7 +416,7 @@ void Clientlist_TextFile(const database* database){
 
 
 
-        
+
         if (client->count > 1){
             fprintf("%-15s %-15s %-15s %-15s %-12d %-12d %-15d\n",
                    client->receipts[client->count - 1].BillingInformation.BillingAddress,
@@ -433,12 +431,12 @@ void Clientlist_TextFile(const database* database){
         }else{
             printf("%-15s %-15s %-15s %-15s %-12s %-12s %-15s\n",
                    "N/A", "N/A", "N/A", "N/A", "N/A", "N/A", "N/A");
-            
+
         }
 
     }
 
-        
+
 
         fprintf("-------------------- --------------- ---------------- ---------- ------------ --------------- --------------- --------------- --------------- ------------ ------------ ---------------\n");
 
@@ -446,8 +444,3 @@ void Clientlist_TextFile(const database* database){
         printf("Client information is saved and stored in output/clientinformation.txt file successfully\n");
 
 }
-
-    
-            
-
-

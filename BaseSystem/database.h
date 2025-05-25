@@ -5,7 +5,7 @@
 #define MAX_INPUT 50
 #define MAX_UNIQUE_INVENTORY 20
 
-#include "GeneralHelperMethods.h"
+#include "generalHelperMethods.h"
 
 /*	Card Struct	*/
 struct CardInformation{
@@ -30,15 +30,6 @@ struct BillingInformation{
 };
 typedef struct BillingInformation billing_Info;
 
-
-/*	Purchase Order	*/
-typedef struct{
-    Dictionary order;
-    int totalCost;
-    Entity client;
-}PurchaseOrder;
-
-
 /*	Database Dictionary	*/
 typedef struct {
     char ClientName[21];
@@ -46,6 +37,13 @@ typedef struct {
     billing_Info BillingInformation;
     int count;
 } Entity;
+
+/*	Purchase Order	*/
+typedef struct{
+    Dictionary order;
+    int totalCost;
+    Entity client;
+}PurchaseOrder;
 
 typedef struct{
     char keyName[21];
@@ -67,24 +65,14 @@ typedef struct{
 } Stock;
 
 
-typedef struct {
-    int uniqueInvoiceID;
-    Stock stock;
-    normal_Date dateOfDelivery;
-    int amountDelivered;
-    float paymentToSuppler;
-} DeliveryInvoice;
-
-
-typedef struct{ 
+typedef struct{
     int supplierID;
     char supplierName[21];
-    DeliveryInvoice deliveryHistory[20];
 } Supplier;
 
 
 typedef struct{
-    Stock stock; 
+    Stock stock;
     Supplier supplier;
     int totalStock;
     float costOfTotalStock;
@@ -99,9 +87,7 @@ typedef struct{
 } Inventory;
 
 
-///////////////////////////////////////
 /*    Helper Functions Defintions   */
-//////////////////////////////////////
 
 /*	Databases	*/
 typedef struct{
@@ -134,7 +120,7 @@ InvntoryItem* GetInventoryItem(int uniqueStockID, const database* database);
 Inventory* GetInventory (const database* database);
 
 /*    Helper Functions Defintions for Inventory */
- 
+
 void CreateNewInventoryItem(database* database);
 void DeleteInventoryItem(InvntoryItem* invItem, database* database);
 void ProduceStockItemTextFile(const database* database);
@@ -142,7 +128,6 @@ void ProduceStockItemList_Terminal (const database* database);
 void DisplayClientList_Terminal(const database* database);
 void Clientlist_TextFile(const database* database);
 
-void CreateNewDeliveryInvoice( database* database);
 void UpdateCostPerUnit (float newValue, InvntoryItem* invItem); 
 void UpdatesellingPrice (float newValue, InvntoryItem* invItem); 
 void UpdateStockItemCount( int newCount, InvntoryItem* invItem);

@@ -202,15 +202,13 @@ void RepositionElementsInArray(int indexToStart, Inventory* inv)
 
 void ProduceStockItemTextFile(const database* database)
 {
-    char filePath [250] = "C:\\Users\\Ashwin\\Documents\\GitHub\\C-assignment\\output\\stock_items.txt";
-
-    FILE* file = fopen(filePath, "w");
+    FILE* file = fopen("stock_items.txt", "w");
 
     if(file == NULL){
         printf("Error! opening the file to write\n");
         return;
     }
-   
+
     Inventory* inv = GetInventory(database);
 
     if (inv->itemItenvoryCount == 0){
@@ -283,7 +281,7 @@ void ProduceStockItemList_Terminal (const database* database)
 
     if (inv -> itemItenvoryCount == 0){
         printf("Given List is Empty");
-        
+
         return;
 
     }
@@ -438,4 +436,3 @@ void EditStock(InvntoryItem* item, database* database)
         EditStockOptions(item, database);
     }
 }
-

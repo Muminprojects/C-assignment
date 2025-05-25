@@ -1,7 +1,9 @@
 #include"generalHelperMethods.h"
+#include "database.h"
 #include<stdio.h>
 #include<string.h>
 #include<stdlib.h>
+
 
 /*--------------------------------------------------------------*/
 /*  Author: Nestor Batoon
