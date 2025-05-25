@@ -33,17 +33,11 @@ typedef struct BillingInformation billing_Info;
 /*	Database Dictionary	*/
 typedef struct {
     char ClientName[21];
+    float balance;
     card_Information currentCardInformation;
     billing_Info BillingInformation;
     int count;
 } Entity;
-
-/*	Purchase Order	*/
-typedef struct{
-    Dictionary order;
-    int totalCost;
-    Entity client;
-}PurchaseOrder;
 
 typedef struct{
     char keyName[21];
@@ -52,46 +46,14 @@ typedef struct{
 } EntityDictionaryDefinition;
 
 typedef struct {
-    float totalBalance;
     EntityDictionaryDefinition clientList[20];
     int count;
 } Finance;
-
-typedef struct{
-    int uniqueStockID;
-    char stockName[21];
-    float CostPerUnit;
-    float sellingPrice;
-} Stock;
-
-
-typedef struct{
-    int supplierID;
-    char supplierName[21];
-} Supplier;
-
-
-typedef struct{
-    Stock stock;
-    Supplier supplier;
-    int totalStock;
-    float costOfTotalStock;
-    float totalStockWorth;
-    int currentIndex;
-} InvntoryItem;
-
-
-typedef struct{
-    InvntoryItem itemItenvory[MAX_UNIQUE_INVENTORY];
-    int itemItenvoryCount;
-} Inventory;
-
 
 /*    Helper Functions Defintions   */
 
 /*	Databases	*/
 typedef struct{
-    Inventory inventory;
     Finance finance;
     char* dbFileName;
 } database;
